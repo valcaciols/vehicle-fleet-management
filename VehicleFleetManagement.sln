@@ -3,7 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.32112.339
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VehicleFleetManagement", "VehicleFleetManagement\VehicleFleetManagement.csproj", "{991622CB-ACCA-4785-8DB9-1A8B3560E6EE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VehicleFleetManagement.Api", "VehicleFleetManagement\VehicleFleetManagement.Api.csproj", "{991622CB-ACCA-4785-8DB9-1A8B3560E6EE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VehicleFleetManagement.Domain", "VehicleFleetManagement.Domain\VehicleFleetManagement.Domain.csproj", "{B1B115E3-7736-43AC-B099-D2FB45700D75}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VehicleFleetManagement.Infrastructure", "VehicleFleetManagement.Infrastructure\VehicleFleetManagement.Infrastructure.csproj", "{CBC91A04-1EE6-460F-BED6-48721A5D2859}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VehicleFleetManagement.Application", "VehicleFleetManagement.Application\VehicleFleetManagement.Application.csproj", "{CFC0802B-32BF-4F3E-A105-A2E22190D684}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +21,18 @@ Global
 		{991622CB-ACCA-4785-8DB9-1A8B3560E6EE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{991622CB-ACCA-4785-8DB9-1A8B3560E6EE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{991622CB-ACCA-4785-8DB9-1A8B3560E6EE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B1B115E3-7736-43AC-B099-D2FB45700D75}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B1B115E3-7736-43AC-B099-D2FB45700D75}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B1B115E3-7736-43AC-B099-D2FB45700D75}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B1B115E3-7736-43AC-B099-D2FB45700D75}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CBC91A04-1EE6-460F-BED6-48721A5D2859}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CBC91A04-1EE6-460F-BED6-48721A5D2859}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CBC91A04-1EE6-460F-BED6-48721A5D2859}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CBC91A04-1EE6-460F-BED6-48721A5D2859}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CFC0802B-32BF-4F3E-A105-A2E22190D684}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CFC0802B-32BF-4F3E-A105-A2E22190D684}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CFC0802B-32BF-4F3E-A105-A2E22190D684}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CFC0802B-32BF-4F3E-A105-A2E22190D684}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
