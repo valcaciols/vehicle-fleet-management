@@ -4,6 +4,7 @@ namespace VehicleFleetManagement.Domain.Aggregates.ClientAggregate
 {
     public class Address: Entity
     {
+        public int ClientId { get; set; }
         public string Street { get; private set; }
         public string City { get; private set; }
         public int Cep { get; private set; }

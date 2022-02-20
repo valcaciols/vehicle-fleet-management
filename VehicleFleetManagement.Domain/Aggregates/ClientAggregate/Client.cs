@@ -8,6 +8,7 @@ namespace VehicleFleetManagement.Domain.Aggregates.ClientAggregate
         public int Cpf { get; private set; }
         public DateTime BirthDate { get; private set; }
         public int Cnh { get; private set; }
+        public int AddressId { get; private set; }
         public Address Address { get; private set; }
 
         public Client(string name, int cpf, DateTime birthDate, int cnh, Address address)
@@ -17,6 +18,7 @@ namespace VehicleFleetManagement.Domain.Aggregates.ClientAggregate
             BirthDate = birthDate;
             Cnh = cnh;
             Address = address;
+            AddressId = address.Id;
         }
 
         public void ChangeAddress(string street, string city, int cep)
