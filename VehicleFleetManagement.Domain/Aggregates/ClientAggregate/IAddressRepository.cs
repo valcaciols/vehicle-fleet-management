@@ -4,7 +4,9 @@ namespace VehicleFleetManagement.Domain.Aggregates.ClientAggregate
 {
     public interface IAddressRepository: IRepository
     {
-        Task UpdateAddressAsync(Address address);
+        Task<Address?> GetByClientIdAsync(int clientId);
+
+        Task<Address> UpdateAddressAsync(Address address);
         Task<Address> AddAsync(Address address);
     }
 }

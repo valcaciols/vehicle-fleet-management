@@ -6,6 +6,7 @@ namespace VehicleFleetManagement.Domain.Aggregates.ClientAggregate
     {
         Task<Client?> GetAsync(int id);
         Task<bool> ExistAsync(string cpf, string cnh);
+        Task<bool> ExistAsync(int clientId);
         Task<List<Client>> GetAllAsync(string cpf, string name);
         Task<Client> AddAsync(Client client);
     }

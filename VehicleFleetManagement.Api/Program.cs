@@ -1,6 +1,7 @@
 using MediatR;
 using VehicleFleetManagement.Application.Commands;
 using VehicleFleetManagement.Application.Commands.Booking;
+using VehicleFleetManagement.Application.Commands.Client;
 using VehicleFleetManagement.Application.Commands.Vehicle;
 using VehicleFleetManagement.Domain.Aggregates.BookingAggregate;
 using VehicleFleetManagement.Domain.Aggregates.ClientAggregate;
@@ -19,6 +20,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddMediatR(typeof(CreateClientCommand));
 builder.Services.AddMediatR(typeof(CreateBookingCommand));
 builder.Services.AddMediatR(typeof(CreateVehicleCommand));
+builder.Services.AddMediatR(typeof(UpdateClientAddressCommand));
 
 builder.Services.AddTransient<IClientRepository, ClientRepository>();
 builder.Services.AddTransient<IAddressRepository, AddressRepository>();

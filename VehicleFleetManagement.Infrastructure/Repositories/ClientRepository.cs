@@ -40,6 +40,11 @@ namespace VehicleFleetManagement.Infrastructure.Repositories
             return await Task.FromResult(query.Any());
         }
 
+        public async Task<bool> ExistAsync(int clientId)
+        {
+            return await Task.FromResult(false);
+        }
+
         public async Task<List<Client>> GetAllAsync(string cpf, string name)
         {
             if (string.IsNullOrEmpty(cpf) && name == null)

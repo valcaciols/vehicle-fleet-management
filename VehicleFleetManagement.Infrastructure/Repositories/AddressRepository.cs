@@ -4,23 +4,29 @@ namespace VehicleFleetManagement.Infrastructure.Repositories
 {
     public class AddressRepository : IAddressRepository
     {
-        private List<Address> _addresses = new ();
+        private List<Address> _addresses = new()
+        {
+            new Address(0, "Avenida Torquato", "Manaus", 69092045)
+        };
+
         public async Task<Address> AddAsync(Address address)
         {
             _addresses.Add(address);
             return await Task.FromResult(address);
         }
 
-        public async Task UpdateAddressAsync(Address address)
+        public async Task<Address?> GetByClientIdAsync(int clientId)
         {
-            var addresses = _addresses.FirstOrDefault(w => w.ClientId == address.ClientId);
+            return await Task.FromResult(_addresses.FirstOrDefault());
+        }
 
-            if (addresses == null)
-                return;
+        public async Task<Address> UpdateAddressAsync(Address address)
+        {
+            var addresses = _addresses.First(w => w.ClientId == address.ClientId);
 
-            address.Change(address.Street, address.City, address.Cep);
+            addresses.Change(address.Street, address.City, address.Cep);
 
-            await Task.CompletedTask;
+            return await Task.FromResult(addresses);
         }
     }
 }
