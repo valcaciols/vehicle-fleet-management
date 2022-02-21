@@ -13,4 +13,10 @@
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\VehicleFleetManagement.Application\VehicleFleetManagement.Application.csproj" />
+    <ProjectReference Include="..\VehicleFleetManagement.Domain\VehicleFleetManagement.Domain.csproj" />
+    <ProjectReference Include="..\VehicleFleetManagement.Infrastructure\VehicleFleetManagement.Infrastructure.csproj" />
+  </ItemGroup>
+
 </Project>
