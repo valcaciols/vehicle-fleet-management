@@ -9,8 +9,9 @@ namespace VehicleFleetManagement.Domain.Aggregates.ClientAggregate
         public string City { get; private set; }
         public int Cep { get; private set; }
 
-        public Address(string street, string city, int cep)
+        public Address(int clientId, string street, string city, int cep)
         {
+            ClientId = clientId;
             Street = street;
             City = city;
             Cep = cep;
