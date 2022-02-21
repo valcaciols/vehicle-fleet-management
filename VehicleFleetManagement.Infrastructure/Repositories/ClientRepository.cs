@@ -9,8 +9,10 @@ namespace VehicleFleetManagement.Infrastructure.Repositories
 {
     public class ClientRepository : IClientRepository
     {
-        private static int _id = 1;
-        private static List<Client> _clients = new List<Client>();
+        private static List<Client> _clients = new()
+        {
+            new Client("Leonardo", "01883806208", DateTime.Now, "26043734")
+        };
 
         public async Task<Client> AddAsync(Client client)
         {

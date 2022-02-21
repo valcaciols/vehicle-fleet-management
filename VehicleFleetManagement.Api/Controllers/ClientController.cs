@@ -21,26 +21,18 @@ namespace VehicleFleetManagement.Api.Controllers
             _mediator = mediator;
         }
 
-        //[HttpGet]
-        //[ProducesResponseType(typeof(List<ClientViewModel>), StatusCodes.Status200OK)]
-        //public IActionResult GetAll([FromQuery] ClientRequest clientRequest)
-        //{
-        //    return Ok();
-        //}
-
-        //[HttpGet("{id}")]
-        //[ProducesResponseType(typeof(ClientViewModel), StatusCodes.Status200OK)]
-        //public IActionResult Get(int id)
-        //{
-        //    return Ok();
-        //}
-
         [HttpPost]
         [ProducesResponseType(typeof(ClientResponse),StatusCodes.Status200OK)]
         public async Task<IActionResult> Post([FromBody] CreateClientCommand command)
         {
             var response = await _mediator.Send(command);
-            return Ok(response);
+
+            if (!response.Status)
+            {
+                return BadRequest(response);
+            }
+
+            return Ok(response.Data);
         }
     }
 }

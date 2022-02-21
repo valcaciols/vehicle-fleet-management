@@ -5,7 +5,7 @@ using VehicleFleetManagement.Domain.Aggregates.ClientAggregate;
 
 namespace VehicleFleetManagement.Application.CommandHandlers.Clients
 {
-    public class CreateClientCommandHandler : IRequestHandler<CreateClientCommand, ClientResponse>
+    public class CreateClientCommandHandler : CommandHandler<ClientResponse>, IRequestHandler<CreateClientCommand, CommandResponse<ClientResponse>>
     {
         private readonly IClientRepository _clientRepository;
         private readonly IAddressRepository _addressRepository;
@@ -16,12 +16,12 @@ namespace VehicleFleetManagement.Application.CommandHandlers.Clients
             _addressRepository = addressRepository;
         }
 
-        public async Task<ClientResponse> Handle(CreateClientCommand command, CancellationToken cancellationToken)
+        public async Task<CommandResponse<ClientResponse>> Handle(CreateClientCommand command, CancellationToken cancellationToken)
         {
             var isClient = await _clientRepository.ExistAsync(command.Cpf, command.Cnh);
 
             if (isClient)
-                throw new InvalidOperationException("Usuário já existente na base");
+                return await Fail("Usuário já existente na base");
 
             var client = new Client(command.Name, command.Cpf, command.BirthDate, command.Cnh); 
 
@@ -31,11 +31,13 @@ namespace VehicleFleetManagement.Application.CommandHandlers.Clients
 
             await _addressRepository.AddAsync(address);
 
-            return new ClientResponse(
+            var clienteResponse = new ClientResponse(
                     clientResult.Name, 
                     clientResult.Cpf, 
                     clientResult.Cnh, 
                     clientResult.BirthDate);
+
+            return await Ok(clienteResponse);
         }
     }
 }

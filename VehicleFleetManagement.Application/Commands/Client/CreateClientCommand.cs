@@ -3,7 +3,7 @@ using VehicleFleetManagement.Application.ViewModels.Responses;
 
 namespace VehicleFleetManagement.Application.Commands
 {
-    public class CreateClientCommand: Command, IRequest<ClientResponse>
+    public class CreateClientCommand: Command, IRequest<CommandResponse<ClientResponse>>
     {
         public string Name { get; set; }
         public string Cpf { get; set; }
