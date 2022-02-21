@@ -4,5 +4,6 @@
     {
         Task<List<Booking>> GetAllByClientIdAsync();
         Task<Booking> AddAsync(Booking booking);
+        Task<bool> ExistActiveByClientId(int clientId);
     }
 }
