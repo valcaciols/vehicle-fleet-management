@@ -6,14 +6,14 @@ namespace VehicleFleetManagement.Domain.Aggregates.VehicleAggregate
     {
         public string LicensePlate { get; private set; }
         public int VehicleModelId { get; set; }
-        public VehicleModel Model { get; private set; }
+        public VehicleModel? VehicleModel { get; private set; }
         public VehicleStatus Status { get; private set; }
 
-        public Vehicle(string licensePlate, VehicleModel model)
+        public Vehicle(string licensePlate, int vehicleModelId, VehicleModel? vehicleModel = null)
         {
             LicensePlate = licensePlate;
-            Model = model;
-            VehicleModelId = model.Id;
+            VehicleModelId = vehicleModelId;
+            VehicleModel = vehicleModel;
             Status = VehicleStatus.Available;
         }
 

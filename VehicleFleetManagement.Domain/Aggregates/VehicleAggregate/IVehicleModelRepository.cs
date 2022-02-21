@@ -4,6 +4,6 @@ namespace VehicleFleetManagement.Domain.Aggregates.VehicleAggregate
 {
     public interface IVehicleModelRepository: IRepository
     {
-        Task<VehicleModel> GetAsync(int id);
+        Task<VehicleModel?> GetAsync(int id);
     }
 }
