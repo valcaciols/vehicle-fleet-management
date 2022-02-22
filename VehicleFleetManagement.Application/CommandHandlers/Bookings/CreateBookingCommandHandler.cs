@@ -47,7 +47,7 @@ namespace VehicleFleetManagement.Application.CommandHandlers.Bookings
             if (!IsDateValidBooking(request))
                 return await Fail("Data de reserva inválida");
 
-            var booking = new Booking(client, vehicle, request.DateWithdrawn, request.DateExpectedReturn);
+            var booking = new Booking(client.Id, vehicle.Id, request.DateWithdrawn, request.DateExpectedReturn);
 
             var bookingResult = await _bookingRepository.AddAsync(booking);
 

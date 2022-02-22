@@ -48,22 +48,22 @@ namespace VehicleFleetManagement.Application.CommandHandlers.Clients
 
             address.Change(request.Street, request.City, request.Cep);
 
-            var addressResult = await _addressRepository.UpdateAddressAsync(address);
+            await _addressRepository.UpdateAddressAsync(address);
 
             await _mediator.Publish(new UpdateClientAddresstDomaintEvent
             {
                 AddressId = address.Id,
-                ClientId = addressResult.Id,
-                Street = addressResult.Street,
-                City = addressResult.City,
-                Cep = addressResult.Cep
+                ClientId = address.ClientId,
+                Street = address.Street,
+                City = address.City,
+                Cep = address.Cep
             });
 
             return await Ok(new UpdateClientAddressResponse(
                     client.Name,
-                    addressResult.Street,
-                    addressResult.City,
-                    addressResult.Cep));
+                    address.Street,
+                    address.City,
+                    address.Cep));
         }
 
         private bool IsValidRequest(UpdateClientAddressCommand request)

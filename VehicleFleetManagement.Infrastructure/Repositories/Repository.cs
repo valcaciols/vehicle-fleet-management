@@ -23,6 +23,12 @@ namespace VehicleFleetManagement.Infrastructure.Repositories
             return await _context.connection.QuerySingleAsync<int>(query);
         }
 
+        public async Task<List<T>> GetAllQueryAsync(string query)
+        {
+            var result = await _context.connection.QueryAsync<T>(query);
+            return result.ToList();
+        }
+
         public async Task UpdateQueryAsync(string query)
         {
             await _context.connection.ExecuteAsync(query);
