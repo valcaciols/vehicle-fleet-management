@@ -1,7 +1,9 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using VehicleFleetManagement.Application.Commands.Vehicle;
+using VehicleFleetManagement.Application.Queries;
 using VehicleFleetManagement.Application.ViewModels.Responses;
+using VehicleFleetManagement.Application.ViewModels.Vehicle;
 
 namespace VehicleFleetManagement.Api.Controllers
 {
@@ -10,10 +12,20 @@ namespace VehicleFleetManagement.Api.Controllers
     public class VehicleController : ControllerBase
     {
         private readonly IMediator _mediator;
+        private readonly IVehicleQueries _vehicleQueries;
 
-        public VehicleController(IMediator mediator)
+        public VehicleController(IMediator mediator, IVehicleQueries vehicleQueries)
         {
             _mediator = mediator;
+            _vehicleQueries = vehicleQueries;
+        }
+
+        [HttpGet]
+        [ProducesResponseType(typeof(List<VehicleViewModel>), StatusCodes.Status200OK)]
+        public async Task<IActionResult> Get([FromQuery] string? licensePlate)
+        {
+            var result =  await _vehicleQueries.GetAllAsync(licensePlate);
+            return Ok(result);
         }
 
         [HttpPost]

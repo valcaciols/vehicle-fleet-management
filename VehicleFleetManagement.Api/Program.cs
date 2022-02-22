@@ -34,6 +34,7 @@ builder.Services.AddSingleton<IDenormalizedBookingRepository, DenormalizedBookin
 builder.Services.AddSingleton<IDenormalizedVehicleRepository, DenormalizedVehicleRepository>();
 
 builder.Services.AddScoped<IClientQueries, ClientQueries>();
+builder.Services.AddScoped<IVehicleQueries, VehicleQueries>();
 
 
 var app = builder.Build();
