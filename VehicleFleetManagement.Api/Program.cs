@@ -5,6 +5,7 @@ using VehicleFleetManagement.Application.Commands.Client;
 using VehicleFleetManagement.Application.Commands.Vehicle;
 using VehicleFleetManagement.Application.DomainEventHandlers.Clients;
 using VehicleFleetManagement.Application.DomainEvents.Clients;
+using VehicleFleetManagement.Application.Queries;
 using VehicleFleetManagement.Domain.Aggregates.BookingAggregate;
 using VehicleFleetManagement.Domain.Aggregates.ClientAggregate;
 using VehicleFleetManagement.Domain.Aggregates.VehicleAggregate;
@@ -31,6 +32,9 @@ builder.Services.AddSingleton<IVehicleModelRepository, VehicleModelRepository>()
 builder.Services.AddSingleton<IDenormalizedClientRepository, DenormalizedClientRepository>();
 builder.Services.AddSingleton<IDenormalizedBookingRepository, DenormalizedBookingRepository>();
 builder.Services.AddSingleton<IDenormalizedVehicleRepository, DenormalizedVehicleRepository>();
+
+builder.Services.AddScoped<IClientQueries, ClientQueries>();
+
 
 var app = builder.Build();
 
