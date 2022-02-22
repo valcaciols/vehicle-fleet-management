@@ -9,9 +9,8 @@ namespace VehicleFleetManagement.Domain.Aggregates.ClientAggregate
         public DateTime BirthDate { get; private set; }
         public string Cnh { get; private set; }
 
-        public Client(int id, string name, string cpf, DateTime birthDate, string cnh)
+        public Client( string name, string cpf, DateTime birthDate, string cnh)
         {
-            Id = id;
             Name = name;
             Cpf = cpf;
             BirthDate = birthDate;

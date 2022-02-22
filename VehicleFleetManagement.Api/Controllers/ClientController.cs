@@ -17,9 +17,9 @@ namespace VehicleFleetManagement.Api.Controllers
     public class ClientController : ControllerBase
     {
         private readonly IMediator _mediator;
-        private readonly IDenormalizedClientRepository _clientRepository;
+        private readonly IClientRepository _clientRepository;
 
-        public ClientController(IMediator mediator, IDenormalizedClientRepository clientRepository)
+        public ClientController(IMediator mediator, IClientRepository clientRepository)
         {
             _mediator = mediator;
             _clientRepository = clientRepository;

@@ -2,5 +2,6 @@
 {
     public interface IDenormalizedClientRepository : IDenormalizedRepository<DenormalizedClient>
     {
+        Task UpdateAddressAsync(DenormalizedClient entity);
     }
 }

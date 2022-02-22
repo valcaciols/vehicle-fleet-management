@@ -61,5 +61,16 @@ namespace VehicleFleetManagement.Infrastructure.Denormalizeds
 
             await _context.connection.ExecuteAsync(query);
         }
+
+        public async Task UpdateAddressAsync(DenormalizedClient entity)
+        {
+            var query = $@"UPDATE [dbo].[DenormalizedClient]
+                           SET [Street] = '{entity.Street}'
+                              ,[City] = '{entity.City}'
+                              ,[Cep] = {entity.Cep}
+                         WHERE [ClientId] = {entity.ClientId}";
+
+            await _context.connection.ExecuteAsync(query);
+        }
     }
 }

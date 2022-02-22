@@ -19,7 +19,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddScoped<VehicleManagerContext>();
+builder.Services.AddSingleton<VehicleManagerContext>();
 
 builder.Services.AddMediatR(typeof(CreateClientCommand));
 builder.Services.AddMediatR(typeof(CreateBookingCommand));

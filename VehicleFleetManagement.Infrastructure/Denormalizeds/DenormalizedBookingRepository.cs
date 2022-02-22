@@ -42,14 +42,26 @@ namespace VehicleFleetManagement.Infrastructure.Denormalizeds
             await _context.connection.ExecuteAsync(query);
         }
 
-        public Task<DenormalizedBooking> GetAsync(int id)
+        public async Task<DenormalizedBooking> GetAsync(int id)
         {
-            throw new NotImplementedException();
+            var query = $"SELECT * FROM [DenormalizedBooking].[dbo].[DenormalizedClient] WHERE [BookingId]={id}";
+            var client = await _context.connection.QueryFirstOrDefaultAsync<DenormalizedBooking>(query);
+            return client;
         }
 
-        public Task UpdateAsync(DenormalizedBooking entity)
+        public async Task UpdateAsync(DenormalizedBooking entity)
         {
-            throw new NotImplementedException();
+            var query = $@"UPDATE [dbo].[DenormalizedBooking]
+                           SET [ClientId] = {entity.ClientId}
+                              ,[ClientName] = '{entity.ClientName}'
+                              ,[VehicleId] = {entity.VehicleId}
+                              ,[VehicleModel] = '{entity.VehicleModel}'
+                              ,[LicensePlate] = '{entity.LicensePlate}'
+                              ,[DateWithdrawn] = '{entity.DateWithdrawn}'
+                              ,[DateWithdrawn] = '{entity.DateWithdrawn}'
+                         WHERE [BookingId]={entity.BookingId}";
+
+            await _context.connection.ExecuteAsync(query);
         }
     }
 }
