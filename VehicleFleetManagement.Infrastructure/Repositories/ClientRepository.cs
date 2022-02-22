@@ -30,16 +30,19 @@ namespace VehicleFleetManagement.Infrastructure.Repositories
             if(string.IsNullOrEmpty(cpf) && string.IsNullOrEmpty(cnh))
                 return false;
 
-            var queryBase = "SELECT * FROM [dbo].[Client] WHERE";
+            var queryBase = @$"SELECT [Name]
+                               ,[Cpf]
+                               ,[Cnh]
+                               ,[BirthDate] FROM [dbo].[Client] WHERE";
             var query = string.Empty;
 
             if (!string.IsNullOrEmpty(cpf))
             {
-                query = $"{queryBase} [Cpf]={cpf}";
+                query = $"{queryBase} [Cpf]='{cpf}'";
             }
             else if (!string.IsNullOrEmpty(cnh))
             {
-                query = $"{queryBase} [Cnh]={cnh}";
+                query = $"{queryBase} [Cnh]='{cnh}'";
             }
 
             if(string.IsNullOrEmpty(query))

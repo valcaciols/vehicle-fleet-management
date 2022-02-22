@@ -1,4 +1,5 @@
 ﻿using Dapper;
+using VehicleFleetManagement.Domain.Aggregates.VehicleAggregate;
 using VehicleFleetManagement.Domain.Denormalizeds;
 using VehicleFleetManagement.Domain.Denormalizeds.Repositories;
 using VehicleFleetManagement.Infrastructure.Repositories;
@@ -20,12 +21,16 @@ namespace VehicleFleetManagement.Infrastructure.Denormalizeds
                        ([VehicleId]
                        ,[LicensePlate]
                        ,[ModelName]
-                       ,[ModelManufacturer])
+                       ,[ModelManufacturer]
+                       ,[StatusId]
+                       ,[StatusName])
                      VALUES
                            ({entity.VehicleId}
                            ,'{entity.LicensePlate}'
                            ,'{entity.ModelName}'
-                           ,'{entity.ModelManufacturer}')";
+                           ,'{entity.ModelManufacturer}'
+                           ,{entity.StatusId}
+                           ,'{entity.StatusName}')";
 
             query += "SELECT CAST(SCOPE_IDENTITY() as int)";
 
@@ -46,6 +51,16 @@ namespace VehicleFleetManagement.Infrastructure.Denormalizeds
                               ,[ModelName] = '{entity.ModelName}'
                               ,[ModelManufacturer] = '{entity.ModelManufacturer}'
                          WHERE [VehicleId] = {entity.VehicleId}";
+
+            await _context.connection.ExecuteAsync(query);
+        }
+
+        public async Task UpdateStatusAsync(int id, int statusId, string statusName)
+        {
+            var query = $@"UPDATE [dbo].[DenormalizedVehicle]
+                           SET [StatusId] = {statusId},
+                               [StatusName] = '{statusName}'
+                         WHERE [VehicleId]={id}";
 
             await _context.connection.ExecuteAsync(query);
         }

@@ -11,6 +11,11 @@ namespace VehicleFleetManagement.Domain.Aggregates.BookingAggregate
         public DateTime DateExpectedReturn { get; private set; }
         public DateTime? DateReturn { get; private set; }
 
+        public Booking()
+        {
+
+        }
+
         public Booking(
             int clientId, 
             int vehicleId, 
@@ -22,6 +27,11 @@ namespace VehicleFleetManagement.Domain.Aggregates.BookingAggregate
             DateCreated = DateTime.Now;
             DateWithdrawn = dateWithdrawn;
             DateExpectedReturn = dateExpectedReturn;
+        }
+
+        public bool IsOpen()
+        {
+            return !DateReturn.HasValue;
         }
 
     }

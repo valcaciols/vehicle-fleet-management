@@ -7,6 +7,6 @@ namespace VehicleFleetManagement.Domain.Aggregates.VehicleAggregate
         Task<Vehicle?> GetAsync(int id);
         Task<bool> ExistAsync(string licencePlate);
         Task<Vehicle> AddAsync(Vehicle vehicle);
-        Task UpdateStatusAsync(int id, VehicleStatus status);
+        Task UpdateStatusAsync(int id, int statusId);
     }
 }

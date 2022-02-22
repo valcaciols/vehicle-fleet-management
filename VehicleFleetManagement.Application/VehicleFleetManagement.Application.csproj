@@ -19,6 +19,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\VehicleFleetManagement.Domain\VehicleFleetManagement.Domain.csproj" />
+    <ProjectReference Include="..\VehicleFleetManagement.Infrastructure\VehicleFleetManagement.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

@@ -26,7 +26,7 @@ namespace VehicleFleetManagement.Application.CommandHandlers.Clients
             if (isClient)
                 return await Fail("Usuário já existente na base");
 
-            var client = new Client(0, command.Name, command.Cpf, command.BirthDate, command.Cnh); 
+            var client = new Client(command.Name, command.Cpf, command.BirthDate, command.Cnh); 
 
             var clientResult = await _clientRepository.AddAsync(client);
 
