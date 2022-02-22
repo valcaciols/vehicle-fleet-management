@@ -5,20 +5,20 @@
         public string ClientName{ get; private set; }
         public string? VehicleModel { get; private set; }
         public DateTime DateCreated { get; private set; }
-        public DateTime DateWithdrawn { get; private set; }
+        public DateTime? DateExpectedWithdrawn { get; private set; }
         public DateTime DateExpectedReturn { get; private set; }
 
         public CreateBookingResponse(
             string clientName,
             string vehicleModel,
             DateTime dateCreated,
-            DateTime dateWithdrawn,
+            DateTime? dateExpectedWithdrawn,
             DateTime dateExpectedReturn)
         {
             ClientName = clientName;
             VehicleModel = vehicleModel;
             DateCreated = dateCreated;
-            DateWithdrawn = dateWithdrawn;
+            DateExpectedWithdrawn = dateExpectedWithdrawn;
             DateExpectedReturn = dateExpectedReturn;
         }
     }

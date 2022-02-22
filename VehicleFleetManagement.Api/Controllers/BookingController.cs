@@ -28,6 +28,14 @@ namespace VehicleFleetManagement.Api.Controllers
             return Ok(result);
         }
 
+        [HttpGet("withdrawn")]
+        [ProducesResponseType(typeof(BookingViewModel), StatusCodes.Status200OK)]
+        public async Task<IActionResult> GetAllWithdrawn([FromQuery] DateTime? inicialDate, [FromQuery] DateTime? endDate)
+        {
+            var result = await _bookingQueries.GetAllWithdrawnAsync(inicialDate, endDate);
+            return Ok(result);
+        }
+
         [HttpPost]
         [ProducesResponseType(typeof(CreateBookingResponse), StatusCodes.Status200OK)]
         public async Task<IActionResult> Post([FromBody] CreateBookingCommand command)

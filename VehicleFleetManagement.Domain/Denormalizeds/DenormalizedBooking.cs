@@ -13,6 +13,7 @@ namespace VehicleFleetManagement.Domain.Denormalizeds
         public string LicensePlate { get; set; }
         public DateTime DateCreated { get; set; }
         public DateTime DateWithdrawn { get; set; }
+        public DateTime? DateExpectedWithdrawn { get; set; }
         public DateTime DateExpectedReturn { get; set; }
         public DateTime DateReturn { get; set; }
     }

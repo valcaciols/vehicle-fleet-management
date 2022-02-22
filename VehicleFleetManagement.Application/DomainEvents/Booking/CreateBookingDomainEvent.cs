@@ -12,7 +12,9 @@ namespace VehicleFleetManagement.Application.DomainEvents.Clients
         public string VehicleModel { get; set; }
         public string LicensePlate { get; set; }
         public DateTime DateCreated { get; set; }
-        public DateTime DateWithdrawn { get; set; }
+        public DateTime? DateWithdrawn { get; set; }
+        public DateTime? DateExpectedWithdrawn { get; set; }
+
         public DateTime DateExpectedReturn { get; set; }
     }
 }

@@ -27,7 +27,7 @@ namespace VehicleFleetManagement.Application.DomainEventHandlers.Booking
                 LicensePlate = notification.LicensePlate,
                 DateCreated = notification.DateCreated,
                 DateExpectedReturn = notification.DateExpectedReturn,
-                DateWithdrawn = notification.DateWithdrawn
+                DateExpectedWithdrawn = notification.DateExpectedWithdrawn
             };
 
             await _denormalizedBooking.AddAsync(booking);

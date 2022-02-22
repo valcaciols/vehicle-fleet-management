@@ -14,13 +14,13 @@ namespace VehicleFleetManagement.Infrastructure.Repositories
                                ([ClientId]
                                ,[VehicleId]
                                ,[DateCreated]
-                               ,[DateWithdrawn]
+                               ,[DateExpectedWithdrawn]
                                ,[DateExpectedReturn])
                          VALUES
                                ({booking.ClientId}
                                ,{booking.VehicleId}
                                ,'{booking.DateCreated}'
-                               ,'{booking.DateWithdrawn}'
+                               ,'{booking.DateExpectedWithdrawn}'
                                ,'{booking.DateExpectedReturn}')";
 
             booking.Id = await AddQueryAsync(query);

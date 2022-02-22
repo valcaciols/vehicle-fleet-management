@@ -27,5 +27,20 @@ namespace VehicleFleetManagement.Application.Queries
 
             return result.ToList();
         }
+
+        public async Task<List<BookingViewModel>> GetAllWithdrawnAsync(DateTime? inicialDate, DateTime? endDate)
+        {
+            var query = $@"SELECT * FROM [dbo].[DenormalizedBooking] WHERE [DateWithdrawn] IS NOT NULL";
+
+            if (inicialDate.HasValue)
+                query += AddParameters(query, $"[DateWithdrawn] >= '{inicialDate}'");
+
+            if (endDate.HasValue)
+                query += AddParameters(query, $"[DateWithdrawn] <= '{endDate}'");
+
+            var result = await _context.connection.QueryAsync<BookingViewModel>(query);
+
+            return result.ToList();
+        }
     }
 }

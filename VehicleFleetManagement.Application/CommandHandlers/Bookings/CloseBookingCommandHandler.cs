@@ -59,18 +59,5 @@ namespace VehicleFleetManagement.Application.CommandHandlers.Bookings
 
             return await Ok(new CloseBookingResponse(booking.Id, dateReturn));
         }
-
-        private bool IsDateValidBooking(CreateBookingCommand request)
-        {
-            if (request.DateExpectedReturn.DayOfYear <= request.DateWithdrawn.DayOfYear)
-                return false;
-
-            return true;
-        }
-
-        private string GetVehicleName(Vehicle vehicle)
-        {
-            return vehicle.VehicleModel != null ? vehicle.VehicleModel.Name : "";
-        }
     }
 }

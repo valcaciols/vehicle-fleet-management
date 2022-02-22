@@ -25,7 +25,7 @@ namespace VehicleFleetManagement.Infrastructure.Denormalizeds
                        ,[LicensePlate]
                        ,[BookingId]
                        ,[DateCreated]
-                       ,[DateWithdrawn]
+                       ,[DateExpectedWithdrawn]
                        ,[DateExpectedReturn])
                      VALUES
                            ({entity.ClientId}
@@ -36,7 +36,7 @@ namespace VehicleFleetManagement.Infrastructure.Denormalizeds
                            ,'{entity.LicensePlate}'
                            ,{entity.BookingId}
                            ,'{entity.DateCreated}'
-                           ,'{entity.DateWithdrawn}'
+                           ,'{entity.DateExpectedWithdrawn}'
                            ,'{entity.DateExpectedReturn}')";
 
             query += "SELECT CAST(SCOPE_IDENTITY() as int)";
