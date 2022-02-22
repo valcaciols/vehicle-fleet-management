@@ -2,9 +2,14 @@
 
 namespace VehicleFleetManagement.Infrastructure.Repositories
 {
-    public class BookingRepository : IBookingRepository
+    public class BookingRepository : Repository<Booking>, IBookingRepository
     {
         private static List<Booking> _bookings = new();
+
+        public BookingRepository(VehicleManagerContext context) : base(context)
+        {
+        }
+
         public async Task<Booking> AddAsync(Booking booking)
         {
             _bookings.Add(booking);

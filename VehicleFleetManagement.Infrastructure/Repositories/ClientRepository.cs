@@ -2,7 +2,7 @@
 
 namespace VehicleFleetManagement.Infrastructure.Repositories
 {
-    public class ClientRepository : IClientRepository
+    public class ClientRepository : Repository<Client>, IClientRepository
     {
         private static List<Client> _clients = new()
         {
@@ -11,6 +11,10 @@ namespace VehicleFleetManagement.Infrastructure.Repositories
             new Client(2, "Maria", "268975654", DateTime.Now, "448761"),
             new Client(3, "Sthe", "78797911", DateTime.Now, "64687")
         };
+
+        public ClientRepository(VehicleManagerContext context) : base(context)
+        {
+        }
 
         public async Task<Client> AddAsync(Client client)
         {

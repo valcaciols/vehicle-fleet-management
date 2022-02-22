@@ -6,7 +6,7 @@ namespace VehicleFleetManagement.Domain.Aggregates.ClientAggregate
     {
         Task<Address?> GetByClientIdAsync(int clientId);
 
-        Task<Address> UpdateAddressAsync(Address address);
+        Task UpdateAddressAsync(Address address);
         Task<Address> AddAsync(Address address);
     }
 }

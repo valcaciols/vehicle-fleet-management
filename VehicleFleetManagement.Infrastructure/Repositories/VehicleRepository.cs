@@ -2,7 +2,7 @@
 
 namespace VehicleFleetManagement.Infrastructure.Repositories
 {
-    public class VehicleRepository : IVehicleRepository
+    public class VehicleRepository : Repository<Vehicle>, IVehicleRepository
     {
         private static List<Vehicle> _vehicles = new()
         {
@@ -11,6 +11,10 @@ namespace VehicleFleetManagement.Infrastructure.Repositories
             new Vehicle("WEF9874", 2),
             new Vehicle("HGD6547", 3),
         };
+
+        public VehicleRepository(VehicleManagerContext context) : base(context)
+        {
+        }
 
         public async Task<Vehicle> AddAsync(Vehicle vehicle)
         {
