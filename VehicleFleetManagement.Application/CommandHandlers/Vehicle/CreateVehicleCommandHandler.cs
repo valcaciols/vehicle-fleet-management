@@ -40,10 +40,12 @@ namespace VehicleFleetManagement.Application.CommandHandlers.Vehicles
                 VehicleId = vehicleResult.Id,
                 LicensePlate = vehicleResult.LicensePlate,
                 ModelName = vehicleModel.Name,
-                ModelManufacturer = vehicleModel.Manufacturer.Name
+                ModelManufacturer = vehicleModel.Manufacturer?.Name,
+                StatusId = (int) VehicleStatus.Available,
+                StatusName = VehicleStatus.Available.ToString()
             });
 
-            var vehicleResponse = new CreateVehicleResponse(vehicleResult.LicensePlate, vehicleModel.Name, vehicleModel.Manufacturer.Name);
+            var vehicleResponse = new CreateVehicleResponse(vehicleResult.LicensePlate, vehicleModel.Name, vehicleModel.Manufacturer?.Name);
 
             return await Ok(vehicleResponse);
         }

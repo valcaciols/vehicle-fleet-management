@@ -4,7 +4,12 @@ namespace VehicleFleetManagement.Domain.Aggregates.VehicleAggregate
 {
     public class VehicleManufacturer: Entity
     {
-        public string Name { get; private set; }
+        public string Name { get; set; }
+
+        public VehicleManufacturer()
+        {
+
+        }
 
         public VehicleManufacturer(string name)
         {

@@ -63,5 +63,14 @@ namespace VehicleFleetManagement.Infrastructure.Denormalizeds
 
             await _context.connection.ExecuteAsync(query);
         }
+
+        public async Task UpdateDateReturnAsync(DenormalizedBooking booking)
+        {
+            var query = $@"UPDATE [dbo].[DenormalizedBooking]
+                           SET [DateReturn] = '{booking.DateReturn}'
+                         WHERE [BookingId]={ booking.BookingId }";
+
+            await _context.connection.ExecuteAsync(query);
+        }
     }
 }

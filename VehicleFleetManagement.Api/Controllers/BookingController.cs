@@ -29,5 +29,25 @@ namespace VehicleFleetManagement.Api.Controllers
 
             return Ok(response.Data);
         }
+
+
+        [HttpPut("close/{bookingId}")]
+        [ProducesResponseType(typeof(CloseBookingResponse), StatusCodes.Status200OK)]
+        public async Task<IActionResult> Return(int? bookingId)
+        {
+            if (bookingId == null)
+                return BadRequest();
+
+            var command = new CloseBookingCommand { BookingId = bookingId.Value };
+            
+            var response = await _mediator.Send(command);
+
+            if (!response.Status)
+            {
+                return BadRequest(response);
+            }
+
+            return Ok(response.Data);
+        }
     }
 }

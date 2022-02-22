@@ -8,5 +8,7 @@ namespace VehicleFleetManagement.Domain.Denormalizeds
         public string LicensePlate { get; set; }
         public string ModelName { get; set; }
         public string ModelManufacturer { get; set; }
+        public int StatusId { get; set; }
+        public string StatusName { get; set; }
     }
 }

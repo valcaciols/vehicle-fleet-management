@@ -6,14 +6,19 @@ namespace VehicleFleetManagement.Domain.Aggregates.VehicleAggregate
     {
         public string Name { get; set; }
         public int VehicleManufacturerId { get; private set; }
-        public VehicleManufacturer Manufacturer { get; private set; }
+        public string VehicleManufacturerName { get; private set; }
 
-        public VehicleModel(int id, string name, VehicleManufacturer manufacturer)
+        public VehicleManufacturer Manufacturer { get => new VehicleManufacturer { Id = VehicleManufacturerId, Name = VehicleManufacturerName };}
+        
+        public VehicleModel()
+        {
+
+        }
+
+        public VehicleModel(int id, string name)
         {
             Id = id;
             Name = name;
-            Manufacturer = manufacturer;
-            VehicleManufacturerId = manufacturer.Id;
         }
     }
 }

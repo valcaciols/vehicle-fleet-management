@@ -3,6 +3,8 @@ using VehicleFleetManagement.Application.Commands;
 using VehicleFleetManagement.Application.Commands.Booking;
 using VehicleFleetManagement.Application.Commands.Client;
 using VehicleFleetManagement.Application.Commands.Vehicle;
+using VehicleFleetManagement.Application.DomainEventHandlers.Clients;
+using VehicleFleetManagement.Application.DomainEvents.Clients;
 using VehicleFleetManagement.Domain.Aggregates.BookingAggregate;
 using VehicleFleetManagement.Domain.Aggregates.ClientAggregate;
 using VehicleFleetManagement.Domain.Aggregates.VehicleAggregate;
@@ -19,9 +21,6 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddSingleton<VehicleManagerContext>();
 
 builder.Services.AddMediatR(typeof(CreateClientCommand));
-builder.Services.AddMediatR(typeof(CreateBookingCommand));
-builder.Services.AddMediatR(typeof(CreateVehicleCommand));
-builder.Services.AddMediatR(typeof(UpdateClientAddressCommand));
 
 builder.Services.AddSingleton<IClientRepository, ClientRepository>();
 builder.Services.AddSingleton<IAddressRepository, AddressRepository>();

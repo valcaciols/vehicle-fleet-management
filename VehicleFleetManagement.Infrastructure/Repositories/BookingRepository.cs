@@ -39,5 +39,20 @@ namespace VehicleFleetManagement.Infrastructure.Repositories
             var query = $@"SELECT * FROM [dbo].[Booking] WHERE [ClientId]={clientId}";
             return await GetAllQueryAsync(query);
         }
+
+        public async Task<Booking> GetAsync(int bookingId)
+        {
+            var query = $@"SELECT * FROM [dbo].[Booking] WHERE [Id]={bookingId}";
+            return await GetQueryAsync(query);
+        }
+
+        public async Task UpdateDateReturnAsync(int bookingId, DateTime dateReturn)
+        {
+            var query = $@"UPDATE [dbo].[Booking]
+                           SET [DateReturn] = '{dateReturn}'
+                         WHERE [Id]={ bookingId }";
+
+            await UpdateQueryAsync(query);
+        }
     }
 }

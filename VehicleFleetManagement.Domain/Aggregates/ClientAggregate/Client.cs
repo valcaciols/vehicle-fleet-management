@@ -9,6 +9,11 @@ namespace VehicleFleetManagement.Domain.Aggregates.ClientAggregate
         public DateTime BirthDate { get; private set; }
         public string Cnh { get; private set; }
 
+        public Client()
+        {
+
+        }
+
         public Client( string name, string cpf, DateTime birthDate, string cnh)
         {
             Name = name;

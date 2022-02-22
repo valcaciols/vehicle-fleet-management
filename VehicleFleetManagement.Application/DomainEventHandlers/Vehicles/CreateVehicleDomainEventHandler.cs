@@ -22,7 +22,9 @@ namespace VehicleFleetManagement.Application.DomainEventHandlers.Clients
                 VehicleId = notification.VehicleId,
                 LicensePlate = notification.LicensePlate,
                 ModelManufacturer = notification.ModelManufacturer,
-                ModelName = notification.ModelName
+                ModelName = notification.ModelName,
+                StatusId = notification.StatusId,
+                StatusName = notification.StatusName,
             };
 
             await _denormalizedVehicle.AddAsync(vehicle);

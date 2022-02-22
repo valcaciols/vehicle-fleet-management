@@ -10,7 +10,8 @@ namespace VehicleFleetManagement.Infrastructure.Repositories
 
         public async Task<VehicleModel?> GetAsync(int id)
         {
-            var query = $@"SELECT * FROM [dbo].[VehicleModel] WHERE [Id]={id}";
+            var query = $@"SELECT vm.Id, vm.Name, vm.VehicleManufacturerId, vh.Name VehicleManufacturerName FROM [dbo].[VehicleModel] vm
+                            INNER JOIN [dbo].[VehicleManufacturer]vh ON vm.VehicleManufacturerId = vh.Id WHERE vm.Id={id}";
             return await GetQueryAsync(query);
         }
     }

@@ -25,7 +25,7 @@ namespace VehicleFleetManagement.Infrastructure.Repositories
 
         public async Task<bool> ExistAsync(string licencePlate)
         {
-            var query = $@"SELECT * FROM [dbo].[Vehicle] WHERE [LicensePlate]={licencePlate}";
+            var query = $@"SELECT * FROM [dbo].[Vehicle] WHERE [LicensePlate]='{licencePlate}'";
             var result = await GetQueryAsync(query);
             return result != null;
         }
@@ -36,17 +36,10 @@ namespace VehicleFleetManagement.Infrastructure.Repositories
             return await GetQueryAsync(query);
         }
 
-        public async Task UpdateStatusAsync(int id, VehicleStatus status)
+        public async Task UpdateStatusAsync(int id, int statusId)
         {
-            var vehicle = await GetAsync(id);
-
-            if (vehicle == null)
-                return;
-
-            vehicle.ChangeStatus(status);
-
             var query = $@"UPDATE [dbo].[Vehicle]
-                           SET [Status] = {(int)vehicle.Status}
+                           SET [Status] = {statusId}
                          WHERE [Id]={id}";
 
             await UpdateQueryAsync(query);
