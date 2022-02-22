@@ -1,15 +1,15 @@
 ﻿using MediatR;
 using VehicleFleetManagement.Application.DomainEvents.Clients;
 using VehicleFleetManagement.Domain.Denormalizeds;
-using VehicleFleetManagement.Infrastructure.Denormalizeds;
+using VehicleFleetManagement.Domain.Denormalizeds.Repositories;
 
 namespace VehicleFleetManagement.Application.DomainEventHandlers.Booking
 {
     public class CreateBookingDomainEventHandler : INotificationHandler<CreateBookingDomainEvent>
     {
-        private readonly DenormalizedBookingRepository _denormalizedBooking;
+        private readonly IDenormalizedBookingRepository _denormalizedBooking;
 
-        public CreateBookingDomainEventHandler(DenormalizedBookingRepository denormalizedBooking)
+        public CreateBookingDomainEventHandler(IDenormalizedBookingRepository denormalizedBooking)
         {
             _denormalizedBooking = denormalizedBooking;
         }
