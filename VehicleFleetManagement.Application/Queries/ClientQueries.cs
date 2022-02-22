@@ -14,25 +14,15 @@ namespace VehicleFleetManagement.Application.Queries
         {
             if (string.IsNullOrEmpty(cpf) && string.IsNullOrEmpty(name))
                 return new();
-
-            var queryBase = @$"SELECT * FROM [dbo].[DenormalizedClient] ";
-            var query = string.Empty;
+            var query = @$"SELECT * FROM [dbo].[DenormalizedClient]";
 
             if (!string.IsNullOrEmpty(cpf))
-            {
-                query = $" WHERE [Cpf]='{cpf}'";
-            }
-            
+                query += AddParameters(query, $"[Cpf]='{cpf}'");
+
             if (!string.IsNullOrEmpty(name))
-            {
-                query += query == string.Empty ? " WHERE": " AND";
-                query += $" [Name] like '%{name}%'";
-            }
+                query += AddParameters(query, $"[Name] LIKE '%{name}%'");
 
-            if (string.IsNullOrEmpty(query))
-                return new();
-
-            var result = await _context.connection.QueryAsync<ClientViewModel>(queryBase + query);
+            var result = await _context.connection.QueryAsync<ClientViewModel>(query);
 
             return result.ToList();
         }

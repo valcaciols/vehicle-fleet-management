@@ -15,5 +15,13 @@ namespace VehicleFleetManagement.Application.Queries
         {
             _context = context;
         }
+
+        public static string AddParameters(string query, string queryParameter)
+        {
+            if (query.Contains("WHERE"))
+                return " AND " + queryParameter;
+
+            return " WHERE " + queryParameter;
+        }
     }
 }

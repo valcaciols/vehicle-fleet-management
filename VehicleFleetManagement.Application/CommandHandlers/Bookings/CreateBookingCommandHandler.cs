@@ -66,6 +66,7 @@ namespace VehicleFleetManagement.Application.CommandHandlers.Bookings
             { 
                 BookingId = booking.Id,
                 ClientId = client.Id,
+                Cpf = client.Cpf,
                 ClientName = client.Name,
                 VehicleId = vehicle.Id,
                 VehicleModel = vehicleModel.Name,
@@ -84,7 +85,7 @@ namespace VehicleFleetManagement.Application.CommandHandlers.Bookings
 
             return await Ok(new CreateBookingResponse(
                 client.Name,
-                GetVehicleName(vehicle),
+                vehicleModel.Name,
                 bookingResult.DateCreated,
                 booking.DateWithdrawn,
                 bookingResult.DateExpectedReturn));
@@ -96,11 +97,6 @@ namespace VehicleFleetManagement.Application.CommandHandlers.Bookings
                 return false;
 
             return true;
-        }
-
-        private string GetVehicleName(Vehicle vehicle)
-        {
-            return vehicle.VehicleModel != null ? vehicle.VehicleModel.Name : "";
         }
     }
 }

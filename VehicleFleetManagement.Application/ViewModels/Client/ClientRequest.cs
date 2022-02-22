@@ -1,4 +1,4 @@
-﻿namespace VehicleFleetManagement.Application.ViewModels.Requests
+﻿namespace VehicleFleetManagement.Application.ViewModels.Client
 {
     public class ClientRequest
     {

@@ -6,6 +6,7 @@ namespace VehicleFleetManagement.Domain.Denormalizeds
     {
         public int BookingId { get; set; }
         public int ClientId { get; set; }
+        public string Cpf { get; set; }
         public string ClientName { get; set; }
         public int VehicleId { get; set; }
         public string VehicleModel { get; set; }

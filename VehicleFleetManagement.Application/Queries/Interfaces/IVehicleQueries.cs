@@ -4,6 +4,6 @@ namespace VehicleFleetManagement.Application.Queries
 {
     public interface IVehicleQueries : IQueries
     {
-        Task<List<VehicleViewModel>> GetAllAsync(string? licensePlate);
+        Task<List<VehicleViewModel>> GetAllAsync(string? licensePlate, string? model, string? manufacturer);
     }
 }

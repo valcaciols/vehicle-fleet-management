@@ -20,6 +20,7 @@ namespace VehicleFleetManagement.Application.DomainEventHandlers.Booking
             {
                 BookingId = notification.BookingId,
                 ClientId = notification.ClientId,
+                Cpf = notification.Cpf,
                 VehicleId = notification.VehicleId,
                 VehicleModel = notification.VehicleModel,
                 ClientName = notification.ClientName,

@@ -22,11 +22,12 @@ namespace VehicleFleetManagement.Api.Controllers
 
         [HttpGet]
         [ProducesResponseType(typeof(List<VehicleViewModel>), StatusCodes.Status200OK)]
-        public async Task<IActionResult> Get([FromQuery] string? licensePlate)
+        public async Task<IActionResult> Get([FromQuery] VehicleRequest request)
         {
-            var result =  await _vehicleQueries.GetAllAsync(licensePlate);
+            var result =  await _vehicleQueries.GetAllAsync(request.LicensePlate, request.Model, request.Manufacturer);
             return Ok(result);
         }
+
 
         [HttpPost]
         [ProducesResponseType(typeof(CreateVehicleResponse), StatusCodes.Status200OK)]

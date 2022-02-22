@@ -18,6 +18,7 @@ namespace VehicleFleetManagement.Infrastructure.Denormalizeds
         {
             var query = $@"INSERT INTO [dbo].[DenormalizedBooking]
                        ([ClientId]
+                       ,[Cpf]
                        ,[ClientName]
                        ,[VehicleId]
                        ,[VehicleModel]
@@ -28,6 +29,7 @@ namespace VehicleFleetManagement.Infrastructure.Denormalizeds
                        ,[DateExpectedReturn])
                      VALUES
                            ({entity.ClientId}
+                           ,'{entity.Cpf}'
                            ,'{entity.ClientName}'
                            ,{entity.VehicleId}
                            ,'{entity.VehicleModel}'

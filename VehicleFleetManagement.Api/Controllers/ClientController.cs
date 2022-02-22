@@ -1,15 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Http;
-using VehicleFleetManagement.Application.ViewModels.Client;
-using VehicleFleetManagement.Application.ViewModels.Requests;
-using VehicleFleetManagement.Domain.Aggregates.ClientAggregate;
+﻿using MediatR;
+using Microsoft.AspNetCore.Mvc;
 using VehicleFleetManagement.Application.Commands;
-using VehicleFleetManagement.Application.CommandHandlers.Clients;
-using VehicleFleetManagement.Application.ViewModels.Responses;
-using MediatR;
-using VehicleFleetManagement.Domain.Denormalizeds.Repositories;
-using VehicleFleetManagement.Domain.Denormalizeds;
 using VehicleFleetManagement.Application.Queries;
+using VehicleFleetManagement.Application.ViewModels.Client;
+using VehicleFleetManagement.Application.ViewModels.Responses;
+using VehicleFleetManagement.Domain.Aggregates.ClientAggregate;
 
 namespace VehicleFleetManagement.Api.Controllers
 {

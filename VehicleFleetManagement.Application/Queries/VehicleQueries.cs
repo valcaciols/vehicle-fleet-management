@@ -10,16 +10,24 @@ namespace VehicleFleetManagement.Application.Queries
         {
         }
 
-        public async Task<List<VehicleViewModel>> GetAllAsync(string licensePlate)
+        public async Task<List<VehicleViewModel>> GetAllAsync(string? licensePlate, string? model, string? manufacturer)
         {
             var query = @$"SELECT * FROM [dbo].[DenormalizedVehicle]";
 
             if (!string.IsNullOrEmpty(licensePlate))
-                query += $" WHERE [LicensePlate] LIKE '{licensePlate}'";
+                query += AddParameters(query, $"[LicensePlate] LIKE '%{licensePlate}%'");
+
+            if (!string.IsNullOrEmpty(model))
+                query += AddParameters(query, $"[ModelName] LIKE '%{model}%'");
+
+            if (!string.IsNullOrEmpty(manufacturer))
+                query += AddParameters(query, $"[ModelManufacturer] LIKE '%{manufacturer}%'");
 
             var result = await _context.connection.QueryAsync<VehicleViewModel>(query);
 
             return result.ToList();
         }
+
+
     }
 }

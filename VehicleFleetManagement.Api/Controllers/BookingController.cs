@@ -1,6 +1,8 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using VehicleFleetManagement.Application.Commands.Booking;
+using VehicleFleetManagement.Application.Queries;
+using VehicleFleetManagement.Application.ViewModels.Booking;
 using VehicleFleetManagement.Application.ViewModels.Responses;
 
 namespace VehicleFleetManagement.Api.Controllers
@@ -10,10 +12,20 @@ namespace VehicleFleetManagement.Api.Controllers
     public class BookingController : ControllerBase
     {
         private readonly IMediator _mediator;
+        private readonly IBookingQueries _bookingQueries;
 
-        public BookingController(IMediator mediator)
+        public BookingController(IMediator mediator, IBookingQueries bookingQueries)
         {
             _mediator = mediator;
+            _bookingQueries = bookingQueries;
+        }
+
+        [HttpGet]
+        [ProducesResponseType(typeof(BookingViewModel), StatusCodes.Status200OK)]
+        public async Task<IActionResult> Get([FromQuery] BookingRequest request)
+        {
+            var result = await _bookingQueries.GetAllAsync(request.ClientId, request.Cpf, request.Name);
+            return Ok(result);
         }
 
         [HttpPost]

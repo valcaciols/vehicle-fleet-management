@@ -1,10 +1,5 @@
 using MediatR;
 using VehicleFleetManagement.Application.Commands;
-using VehicleFleetManagement.Application.Commands.Booking;
-using VehicleFleetManagement.Application.Commands.Client;
-using VehicleFleetManagement.Application.Commands.Vehicle;
-using VehicleFleetManagement.Application.DomainEventHandlers.Clients;
-using VehicleFleetManagement.Application.DomainEvents.Clients;
 using VehicleFleetManagement.Application.Queries;
 using VehicleFleetManagement.Domain.Aggregates.BookingAggregate;
 using VehicleFleetManagement.Domain.Aggregates.ClientAggregate;
@@ -35,6 +30,7 @@ builder.Services.AddSingleton<IDenormalizedVehicleRepository, DenormalizedVehicl
 
 builder.Services.AddScoped<IClientQueries, ClientQueries>();
 builder.Services.AddScoped<IVehicleQueries, VehicleQueries>();
+builder.Services.AddScoped<IBookingQueries, BookingQueries>();
 
 
 var app = builder.Build();
