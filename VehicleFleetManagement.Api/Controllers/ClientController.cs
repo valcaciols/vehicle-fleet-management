@@ -7,6 +7,8 @@ using VehicleFleetManagement.Application.Commands;
 using VehicleFleetManagement.Application.CommandHandlers.Clients;
 using VehicleFleetManagement.Application.ViewModels.Responses;
 using MediatR;
+using VehicleFleetManagement.Domain.Denormalizeds.Repositories;
+using VehicleFleetManagement.Domain.Denormalizeds;
 
 namespace VehicleFleetManagement.Api.Controllers
 {
@@ -15,10 +17,20 @@ namespace VehicleFleetManagement.Api.Controllers
     public class ClientController : ControllerBase
     {
         private readonly IMediator _mediator;
+        private readonly IDenormalizedClientRepository _clientRepository;
 
-        public ClientController(IMediator mediator)
+        public ClientController(IMediator mediator, IDenormalizedClientRepository clientRepository)
         {
             _mediator = mediator;
+            _clientRepository = clientRepository;
+        }
+
+        [HttpGet("{clientId}")]
+        [ProducesResponseType(typeof(DenormalizedClient), StatusCodes.Status200OK)]
+        public async Task<IActionResult> Get(int clientId)
+        {
+            var client = await _clientRepository.GetAsync(clientId);
+            return Ok(client);
         }
 
         [HttpPost]

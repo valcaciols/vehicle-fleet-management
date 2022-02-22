@@ -20,8 +20,8 @@ namespace VehicleFleetManagement.Domain.Aggregates.ClientAggregate
         public void Change(string street, string city, int cep)
         {
             Street = Street.Equals(street) ? Street : street;
-            City = Street.Equals(city) ? City : city;
-            Cep = Cep.Equals(cep) ? Cep : cep;
+            City = City.Equals(city) ? City : city;
+            Cep = Cep.Equals(cep) || cep == 0 ? Cep : cep;
         }        
     }
 }

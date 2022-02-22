@@ -2,25 +2,51 @@
 
 namespace VehicleFleetManagement.Infrastructure.Repositories
 {
-    public class AddressRepository : IAddressRepository
+    public class AddressRepository : Repository<Address>, IAddressRepository
     {
-        private List<Address> _addresses = new ();
+        public AddressRepository(VehicleManagerContext context) : base(context)
+        {
+        }
+
         public async Task<Address> AddAsync(Address address)
         {
-            _addresses.Add(address);
-            return await Task.FromResult(address);
+            var query = $@"INSERT INTO [dbo].[Address]
+                           ([ClientId]
+                           ,[Street]
+                           ,[City]
+                           ,[Cep])
+                     VALUES
+                           ({address.ClientId}
+                           ,'{address.Street}'
+                           ,'{address.City}'
+                           ,{address.Cep})";
+
+            address.Id = await AddQueryAsync(query);
+            return address;
+        }
+
+        public async Task<Address?> GetByClientIdAsync(int clientId)
+        {
+            var query = $@"SELECT * FROM [dbo].[Address] WHERE [ClientId]={clientId}";
+            return await GetQueryAsync(query);
         }
 
         public async Task UpdateAddressAsync(Address address)
         {
-            var addresses = _addresses.FirstOrDefault(w => w.ClientId == address.ClientId);
+            var addressChange = await GetByClientIdAsync(address.ClientId);
 
-            if (addresses == null)
+            if (addressChange == null)
                 return;
 
-            address.Change(address.Street, address.City, address.Cep);
+            addressChange.Change(address.Street, address.City, address.Cep);
 
-            await Task.CompletedTask;
+            var query = $@"UPDATE [dbo].[Address]
+                           SET [Street] = '{addressChange.Street}'
+                              ,[City] = '{addressChange.City}'
+                              ,[Cep] = {address.Cep}
+                         WHERE [ClientId]={address.ClientId}";
+
+            await UpdateQueryAsync(query);
         }
     }
 }

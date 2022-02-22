@@ -8,8 +8,9 @@ namespace VehicleFleetManagement.Domain.Aggregates.VehicleAggregate
         public int VehicleManufacturerId { get; private set; }
         public VehicleManufacturer Manufacturer { get; private set; }
 
-        public VehicleModel(string name, VehicleManufacturer manufacturer)
+        public VehicleModel(int id, string name, VehicleManufacturer manufacturer)
         {
+            Id = id;
             Name = name;
             Manufacturer = manufacturer;
             VehicleManufacturerId = manufacturer.Id;

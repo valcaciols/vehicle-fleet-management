@@ -2,23 +2,42 @@
 
 namespace VehicleFleetManagement.Infrastructure.Repositories
 {
-    public class BookingRepository : IBookingRepository
+    public class BookingRepository : Repository<Booking>, IBookingRepository
     {
-        private List<Booking> _bookings = new();
+        public BookingRepository(VehicleManagerContext context) : base(context)
+        {
+        }
+
         public async Task<Booking> AddAsync(Booking booking)
         {
-            _bookings.Add(booking);
-            return await Task.FromResult(booking);
+            var query = $@"INSERT INTO [dbo].[Booking]
+                               ([ClientId]
+                               ,[VehicleId]
+                               ,[DateCreated]
+                               ,[DateWithdrawn]
+                               ,[DateExpectedReturn])
+                         VALUES
+                               ({booking.ClientId}
+                               ,{booking.VehicleId}
+                               ,'{booking.DateCreated}'
+                               ,'{booking.DateWithdrawn}'
+                               ,'{booking.DateExpectedReturn}')";
+
+            booking.Id = await AddQueryAsync(query);
+            return booking;
         }
 
         public async Task<bool> ExistActiveByClientId(int clientId)
         {
-            return await Task.FromResult(false);
+            var query = $@"SELECT * FROM [dbo].[Booking] WHERE [ClientId]={clientId} AND [DateReturn] IS NULL";
+            var result = await GetQueryAsync(query);
+            return result != null;
         }
 
-        public async Task<List<Booking>> GetAllByClientIdAsync()
+        public async Task<List<Booking>> GetAllByClientIdAsync(int clientId)
         {
-            return await Task.FromResult(_bookings);
+            var query = $@"SELECT * FROM [dbo].[Booking] WHERE [ClientId]={clientId}";
+            return await GetAllQueryAsync(query);
         }
     }
 }

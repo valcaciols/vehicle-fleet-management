@@ -1,23 +1,28 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using VehicleFleetManagement.Domain.Aggregates.ClientAggregate;
+﻿using VehicleFleetManagement.Domain.Aggregates.ClientAggregate;
 
 namespace VehicleFleetManagement.Infrastructure.Repositories
 {
-    public class ClientRepository : IClientRepository
+    public class ClientRepository : Repository<Client>, IClientRepository
     {
-        private static List<Client> _clients = new()
+        public ClientRepository(VehicleManagerContext context) : base(context)
         {
-            new Client("Leonardo", "01883806208", DateTime.Now, "26043734")
-        };
+        }
 
         public async Task<Client> AddAsync(Client client)
         {
-            _clients.Add(client);
-            return await Task.FromResult(client);
+            var query = $@"INSERT INTO [dbo].[Client]
+                               ([Name]
+                               ,[Cpf]
+                               ,[Cnh]
+                               ,[BirthDate])
+                         VALUES
+                               ('{client.Name}'
+                               ,'{client.Cpf}'
+                               ,'{client.Cnh}'
+                               ,'{client.BirthDate}')";
+
+            client.Id = await AddQueryAsync(query);
+            return client;
         }
 
         public async Task<bool> ExistAsync(string cpf, string cnh)
@@ -25,44 +30,64 @@ namespace VehicleFleetManagement.Infrastructure.Repositories
             if(string.IsNullOrEmpty(cpf) && string.IsNullOrEmpty(cnh))
                 return false;
 
-            var query = _clients.AsQueryable();
+            var queryBase = "SELECT * FROM [dbo].[Client] WHERE";
+            var query = string.Empty;
 
             if (!string.IsNullOrEmpty(cpf))
             {
-                query = query.Where(w => w.Cpf == cpf);
+                query = $"{queryBase} [Cpf]={cpf}";
             }
-
-            if (!string.IsNullOrEmpty(cnh))
+            else if (!string.IsNullOrEmpty(cnh))
             {
-                query = query.Where(w => w.Cnh == cnh);
+                query = $"{queryBase} [Cnh]={cnh}";
             }
 
-            return await Task.FromResult(query.Any());
+            if(string.IsNullOrEmpty(query))
+                return false;
+
+            var result = await GetQueryAsync(query);
+
+            if (result == null)
+                return false;
+
+            return true;
+        }
+
+        public async Task<bool> ExistAsync(int clientId)
+        {
+            var query = $@"SELECT * FROM [dbo].[Client] WHERE [Id]={clientId}";
+            var result = await GetQueryAsync(query);
+            return result != null;
         }
 
         public async Task<List<Client>> GetAllAsync(string cpf, string name)
         {
-            if (string.IsNullOrEmpty(cpf) && name == null)
+            if (string.IsNullOrEmpty(cpf) && string.IsNullOrEmpty(name))
                 return new();
 
-            var query = _clients.AsQueryable();
-
-            if (!string.IsNullOrEmpty(cpf))
+            var queryBase = "SELECT * FROM [dbo].[Client] WHERE";
+            var query = string.Empty;
+            
+            if (string.IsNullOrEmpty(cpf) && string.IsNullOrEmpty(name))
             {
-                query = query.Where(w => w.Cpf == cpf);
+                query = $"{queryBase} [Cpf]={cpf} AND [Cnh]={name}";
+            }
+            else if (!string.IsNullOrEmpty(cpf))
+            {
+                query = $"{queryBase} [Cpf]={cpf}";
+            }
+            else if (!string.IsNullOrEmpty(name))
+            {
+                query = $"{queryBase} [Cnh]={name}";
             }
 
-            if (name != null)
-            {
-                query = query.Where(w => w.Name.Contains(name));
-            }
-
-            return await Task.FromResult(query.ToList());
+            return await GetAllQueryAsync(query);
         }
 
         public async Task<Client?> GetAsync(int id)
         {
-            return await Task.FromResult(_clients.Find(w => w.Id == id));
+            var query = $@"SELECT * FROM [dbo].[Client] WHERE [Id]={id}";
+            return await GetQueryAsync(query);
         }
     }
 }
