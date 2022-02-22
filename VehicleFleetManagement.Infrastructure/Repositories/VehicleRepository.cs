@@ -4,43 +4,52 @@ namespace VehicleFleetManagement.Infrastructure.Repositories
 {
     public class VehicleRepository : Repository<Vehicle>, IVehicleRepository
     {
-        private static List<Vehicle> _vehicles = new()
-        {
-            new Vehicle("JXO5050", 0),
-            new Vehicle("ASC5146", 1),
-            new Vehicle("WEF9874", 2),
-            new Vehicle("HGD6547", 3),
-        };
-
         public VehicleRepository(VehicleManagerContext context) : base(context)
         {
         }
 
         public async Task<Vehicle> AddAsync(Vehicle vehicle)
         {
-            _vehicles.Add(vehicle);
-            return await Task.FromResult(vehicle);
+            var query = $@"INSERT INTO [dbo].[Vehicle]
+                               ([LicensePlate]
+                               ,[Status]
+                               ,[VehicleModelId])
+                         VALUES
+                               ('{vehicle.LicensePlate}'
+                               ,{(int)vehicle.Status}
+                               ,{vehicle.VehicleModelId})";
+
+            vehicle.Id = await AddQueryAsync(query);
+            return vehicle;
         }
 
         public async Task<bool> ExistAsync(string licencePlate)
         {
-            return await Task.FromResult(false);
+            var query = $@"SELECT * FROM [dbo].[Vehicle] WHERE [LicensePlate]={licencePlate}";
+            var result = await GetQueryAsync(query);
+            return result != null;
         }
 
         public async Task<Vehicle?> GetAsync(int id)
         {
-           var vehicle = _vehicles.Find(x => x.Id == id);
-           return await Task.FromResult(vehicle);
+            var query = $@"SELECT * FROM [dbo].[Vehicle] WHERE [Id]={id}";
+            return await GetQueryAsync(query);
         }
 
         public async Task UpdateStatusAsync(int id, VehicleStatus status)
         {
-            var vehicle = _vehicles.Find(x => x.Id == id);
+            var vehicle = await GetAsync(id);
 
-            if(vehicle != null)
-                vehicle.ChangeStatus(status);
+            if (vehicle == null)
+                return;
 
-            await Task.CompletedTask;
+            vehicle.ChangeStatus(status);
+
+            var query = $@"UPDATE [dbo].[Vehicle]
+                           SET [Status] = {(int)vehicle.Status}
+                         WHERE [Id]={id}";
+
+            await UpdateQueryAsync(query);
         }
     }
 }
