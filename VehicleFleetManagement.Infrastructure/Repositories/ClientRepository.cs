@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using VehicleFleetManagement.Domain.Aggregates.ClientAggregate;
+﻿using VehicleFleetManagement.Domain.Aggregates.ClientAggregate;
 
 namespace VehicleFleetManagement.Infrastructure.Repositories
 {
@@ -11,7 +6,10 @@ namespace VehicleFleetManagement.Infrastructure.Repositories
     {
         private static List<Client> _clients = new()
         {
-            new Client("Leonardo", "01883806208", DateTime.Now, "26043734")
+            new Client(0, "Leonardo", "01883806208", DateTime.Now, "67631321"),
+            new Client(1, "Joao", "45454545454", DateTime.Now, "5576431"),
+            new Client(2, "Maria", "268975654", DateTime.Now, "448761"),
+            new Client(3, "Sthe", "78797911", DateTime.Now, "64687")
         };
 
         public async Task<Client> AddAsync(Client client)

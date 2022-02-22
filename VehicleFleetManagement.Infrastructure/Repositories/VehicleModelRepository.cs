@@ -4,10 +4,12 @@ namespace VehicleFleetManagement.Infrastructure.Repositories
 {
     public class VehicleModelRepository : IVehicleModelRepository
     {
-        private List<VehicleModel> _vehicles = new()
+        private static List<VehicleModel> _vehicles = new()
         {
-            new VehicleModel("Palio", new VehicleManufacturer("Fiat")),
-            new VehicleModel("Civic", new VehicleManufacturer("Honda"))
+            new VehicleModel(0, "Palio", new VehicleManufacturer("Fiat")),
+            new VehicleModel(1, "Punto", new VehicleManufacturer("Fiat")),
+            new VehicleModel(2, "Civic", new VehicleManufacturer("Honda")),
+            new VehicleModel(3, "Up", new VehicleManufacturer("VW"))
         };
         public async Task<VehicleModel?> GetAsync(int id)
         {

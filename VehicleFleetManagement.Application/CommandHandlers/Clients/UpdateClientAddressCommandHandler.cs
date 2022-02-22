@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using VehicleFleetManagement.Application.Commands.Client;
+using VehicleFleetManagement.Application.DomainEvents.Clients;
 using VehicleFleetManagement.Application.ViewModels.Responses;
 using VehicleFleetManagement.Domain.Aggregates.ClientAggregate;
 
@@ -9,11 +10,13 @@ namespace VehicleFleetManagement.Application.CommandHandlers.Clients
     {
         private readonly IClientRepository _clientRepository;
         private readonly IAddressRepository _addressRepository;
+        private readonly IMediator _mediator;
 
-        public UpdateClientAddressCommandHandler(IClientRepository clientRepository, IAddressRepository addressRepository)
+        public UpdateClientAddressCommandHandler(IClientRepository clientRepository, IAddressRepository addressRepository, IMediator mediator)
         {
             _clientRepository = clientRepository;
             _addressRepository = addressRepository;
+            _mediator = mediator;
         }
 
         public async Task<CommandResponse<UpdateClientAddressResponse>> Handle(UpdateClientAddressCommand request, CancellationToken cancellationToken)
@@ -47,13 +50,20 @@ namespace VehicleFleetManagement.Application.CommandHandlers.Clients
 
             var addressResult = await _addressRepository.UpdateAddressAsync(address);
 
-            var addressResponse = new UpdateClientAddressResponse(
+            await _mediator.Publish(new UpdateClientAddresstDomaintEvent
+            {
+                AddressId = address.Id,
+                ClientId = addressResult.Id,
+                Street = addressResult.Street,
+                City = addressResult.City,
+                Cep = addressResult.Cep
+            });
+
+            return await Ok(new UpdateClientAddressResponse(
                     client.Name,
                     addressResult.Street,
                     addressResult.City,
-                    addressResult.Cep);
-
-            return await Ok(addressResponse);
+                    addressResult.Cep));
         }
 
         private bool IsValidRequest(UpdateClientAddressCommand request)

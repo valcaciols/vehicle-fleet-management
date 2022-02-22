@@ -4,9 +4,12 @@ namespace VehicleFleetManagement.Infrastructure.Repositories
 {
     public class AddressRepository : IAddressRepository
     {
-        private List<Address> _addresses = new()
+        private static List<Address> _addresses = new()
         {
-            new Address(0, "Avenida Torquato", "Manaus", 69092045)
+            new Address(0, "Avenida Torquato", "Manaus", 69092040),
+            new Address(1, "Rua 01", "Itacoatiara", 69092041),
+            new Address(2, "Rua 02", "Iranduba", 69092042),
+            new Address(3, "Rua 03", "Presidente Figueiredo", 69092043)
         };
 
         public async Task<Address> AddAsync(Address address)

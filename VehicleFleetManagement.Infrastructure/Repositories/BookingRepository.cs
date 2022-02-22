@@ -4,7 +4,7 @@ namespace VehicleFleetManagement.Infrastructure.Repositories
 {
     public class BookingRepository : IBookingRepository
     {
-        private List<Booking> _bookings = new();
+        private static List<Booking> _bookings = new();
         public async Task<Booking> AddAsync(Booking booking)
         {
             _bookings.Add(booking);
@@ -13,7 +13,8 @@ namespace VehicleFleetManagement.Infrastructure.Repositories
 
         public async Task<bool> ExistActiveByClientId(int clientId)
         {
-            return await Task.FromResult(false);
+            var exist = _bookings.Any(a => a.ClientId == clientId && a.DateReturn == null);
+            return await Task.FromResult(exist);
         }
 
         public async Task<List<Booking>> GetAllByClientIdAsync()

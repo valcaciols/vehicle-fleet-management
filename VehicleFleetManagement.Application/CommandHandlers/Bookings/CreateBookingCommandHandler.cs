@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using VehicleFleetManagement.Application.Commands.Booking;
+using VehicleFleetManagement.Application.DomainEvents.Clients;
 using VehicleFleetManagement.Application.ViewModels.Responses;
 using VehicleFleetManagement.Domain.Aggregates.BookingAggregate;
 using VehicleFleetManagement.Domain.Aggregates.ClientAggregate;
@@ -12,15 +13,18 @@ namespace VehicleFleetManagement.Application.CommandHandlers.Bookings
         private readonly IBookingRepository _bookingRepository;
         private readonly IClientRepository _clientRepository;
         private readonly IVehicleRepository _vehicleRepository;
+        private readonly IMediator _mediator;
 
         public CreateBookingCommandHandler(
                 IBookingRepository bookingRepository,
                 IClientRepository clientRepository,
-                IVehicleRepository vehicleRepository)
+                IVehicleRepository vehicleRepository,
+                IMediator mediator)
         {
             _bookingRepository = bookingRepository;
             _clientRepository = clientRepository;
             _vehicleRepository = vehicleRepository;
+            _mediator = mediator;
         }
 
         public async Task<CommandResponse<CreateBookingResponse>> Handle(CreateBookingCommand request, CancellationToken cancellationToken)
@@ -47,14 +51,25 @@ namespace VehicleFleetManagement.Application.CommandHandlers.Bookings
 
             var bookingResult = await _bookingRepository.AddAsync(booking);
 
-            var bookingResponse =  new CreateBookingResponse(
-                client.Name,
-                GetVehicleName(vehicle), 
-                bookingResult.DateCreated, 
-                booking.DateWithdrawn, 
-                bookingResult.DateExpectedReturn);
+            await _mediator.Publish(new CreateBookingDomainEvent
+            { 
+                BookingId = booking.Id,
+                ClientId = client.Id,
+                ClientName = client.Name,
+                VehicleId = vehicle.Id,
+                VehicleModel = vehicle.VehicleModel?.Name,
+                LicensePlate = vehicle.LicensePlate,
+                DateCreated = booking.DateCreated,
+                DateWithdrawn = booking.DateWithdrawn,
+                DateExpectedReturn = booking.DateExpectedReturn
+            });
 
-            return await Ok(bookingResponse);
+            return await Ok(new CreateBookingResponse(
+                client.Name,
+                GetVehicleName(vehicle),
+                bookingResult.DateCreated,
+                booking.DateWithdrawn,
+                bookingResult.DateExpectedReturn));
         }
 
         private bool IsDateValidBooking(CreateBookingCommand request)
