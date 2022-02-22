@@ -35,7 +35,10 @@ namespace VehicleFleetManagement.Application.CommandHandlers.Bookings
             var booking = await _bookingRepository.GetAsync(request.BookingId);
 
             if (booking == null)
-                return await Fail("Booking já possui reserva ativa");
+                return await Fail("Reserva não encontrada");
+
+            if (!booking.IsOpen())
+                return await Fail("Reserva já está fechada");
 
             var dateReturn = DateTime.Now;
 

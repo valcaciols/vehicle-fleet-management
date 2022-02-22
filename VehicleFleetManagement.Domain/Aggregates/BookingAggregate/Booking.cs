@@ -29,5 +29,10 @@ namespace VehicleFleetManagement.Domain.Aggregates.BookingAggregate
             DateExpectedReturn = dateExpectedReturn;
         }
 
+        public bool IsOpen()
+        {
+            return !DateReturn.HasValue;
+        }
+
     }
 }

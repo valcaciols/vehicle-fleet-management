@@ -14,19 +14,19 @@ namespace VehicleFleetManagement.Domain.Aggregates.ClientAggregate
 
         }
 
-        public Address(int clientId, string street, string city, int cep)
+        public Address(int clientId, string street, string city, int? cep)
         {
             ClientId = clientId;
             Street = street;
             City = city;
-            Cep = cep;
+            Cep = cep.HasValue ? cep.Value: 0;
         }
 
-        public void Change(string street, string city, int cep)
+        public void Change(string street, string city, int? cep)
         {
-            Street = Street.Equals(street) ? Street : street;
-            City = City.Equals(city) ? City : city;
-            Cep = Cep.Equals(cep) || cep == 0 ? Cep : cep;
+            Street = street == null || Street.Equals(street) ? Street : street;
+            City = city == null || City.Equals(city) ? City : city;
+            Cep = !cep.HasValue ||Cep.Equals(cep) || cep == 0 ? Cep : cep.Value;
         }        
     }
 }

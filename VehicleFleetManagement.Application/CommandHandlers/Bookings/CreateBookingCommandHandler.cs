@@ -42,6 +42,9 @@ namespace VehicleFleetManagement.Application.CommandHandlers.Bookings
             if (vehicle == null)
                 return await Fail("Veiculo não encontrado");
 
+            if (!vehicle.IsAvailable())
+                return await Fail("Veiculo está ocupado");
+
             var vehicleModel = await _vehicleModelRepository.GetAsync(vehicle.VehicleModelId);
 
             if (vehicleModel == null)
