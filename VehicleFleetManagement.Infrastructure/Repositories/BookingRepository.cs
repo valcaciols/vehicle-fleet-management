@@ -54,5 +54,27 @@ namespace VehicleFleetManagement.Infrastructure.Repositories
 
             await UpdateQueryAsync(query);
         }
+
+        public async Task UpdateExpectedDateAsync(int bookingId, DateTime? dateExpectedWithdrawn, DateTime? dateExpectedReturn)
+        {
+            if(dateExpectedWithdrawn == null && dateExpectedReturn == null)
+                return;
+
+            var query = $@"UPDATE [dbo].[Booking] SET ";
+
+            var parameters = string.Empty;
+
+            if (dateExpectedWithdrawn.HasValue)
+                parameters += $"[DateExpectedWithdrawn] = '{dateExpectedWithdrawn.Value}'";
+
+            if (dateExpectedReturn.HasValue)
+            {
+                query += string.IsNullOrEmpty(parameters) ? "" : " ,";
+                parameters += $"[DateExpectedReturn] = '{dateExpectedReturn.Value}'";
+            }
+                
+            query += $"WHERE [Id]={ bookingId }";
+            await UpdateQueryAsync(query + parameters);
+        }
     }
 }

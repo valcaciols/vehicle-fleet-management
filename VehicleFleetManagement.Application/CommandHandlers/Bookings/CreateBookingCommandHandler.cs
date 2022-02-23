@@ -72,7 +72,7 @@ namespace VehicleFleetManagement.Application.CommandHandlers.Bookings
                 VehicleModel = vehicleModel.Name,
                 LicensePlate = vehicle.LicensePlate,
                 DateCreated = booking.DateCreated,
-                DateWithdrawn = booking.DateWithdrawn,
+                DateExpectedWithdrawn = booking.DateExpectedWithdrawn,
                 DateExpectedReturn = booking.DateExpectedReturn
             });
 

@@ -36,6 +36,24 @@ namespace VehicleFleetManagement.Api.Controllers
             return Ok(result);
         }
 
+        [HttpPut("withdrawn/expected/{bookingId}")]
+        [ProducesResponseType(typeof(CloseBookingResponse), StatusCodes.Status200OK)]
+        public async Task<IActionResult> PutExpectedDate(int bookingId, [FromBody] UpdateBookingExpectedDateCommand command)
+        {
+            if (bookingId != command.BookingId)
+                return BadRequest();
+
+            var response = await _mediator.Send(command);
+
+            if (!response.Status)
+            {
+                return BadRequest(response);
+            }
+
+            return Ok(response.Data);
+        }
+
+
         [HttpPost]
         [ProducesResponseType(typeof(CreateBookingResponse), StatusCodes.Status200OK)]
         public async Task<IActionResult> Post([FromBody] CreateBookingCommand command)

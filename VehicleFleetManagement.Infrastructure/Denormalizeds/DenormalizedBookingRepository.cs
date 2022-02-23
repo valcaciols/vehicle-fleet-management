@@ -74,5 +74,27 @@ namespace VehicleFleetManagement.Infrastructure.Denormalizeds
 
             await _context.connection.ExecuteAsync(query);
         }
+
+        public async Task UpdateExpectedDateAsync(int bookingId, DateTime? dateExpectedWithdrawn, DateTime? dateExpectedReturn)
+        {
+            if (dateExpectedWithdrawn == null && dateExpectedReturn == null)
+                return;
+
+            var query = $@"UPDATE [dbo].[DenormalizedBooking] SET ";
+
+            var parameters = string.Empty;
+
+            if (dateExpectedWithdrawn.HasValue)
+                parameters += $"[DateExpectedWithdrawn] = '{dateExpectedWithdrawn.Value}'";
+
+            if (dateExpectedReturn.HasValue)
+            {
+                query += string.IsNullOrEmpty(parameters) ? "" : " ,";
+                parameters += $"[DateExpectedReturn] = '{dateExpectedReturn.Value}'";
+            }
+
+            query += $"WHERE [Id]={ bookingId }";
+            await _context.connection.ExecuteAsync(query + parameters);
+        }
     }
 }
