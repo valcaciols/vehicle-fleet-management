@@ -22,6 +22,15 @@ namespace VehicleFleetManagement.Domain.Aggregates.VehicleAggregate
             Status = VehicleStatus.Available;
         }
 
+        public Vehicle(int id, string licensePlate, int vehicleModelId, VehicleModel? vehicleModel = null)
+        {
+            Id = id;
+            LicensePlate = licensePlate;
+            VehicleModelId = vehicleModelId;
+            VehicleModel = vehicleModel;
+            Status = VehicleStatus.Available;
+        }
+
         public bool IsAvailable()
         {
             return Status == VehicleStatus.Available;
