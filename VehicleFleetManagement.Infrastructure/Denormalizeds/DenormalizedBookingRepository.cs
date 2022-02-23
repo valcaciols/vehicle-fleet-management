@@ -89,12 +89,12 @@ namespace VehicleFleetManagement.Infrastructure.Denormalizeds
 
             if (dateExpectedReturn.HasValue)
             {
-                query += string.IsNullOrEmpty(parameters) ? "" : " ,";
+                parameters += string.IsNullOrEmpty(parameters) ? "" : " ,";
                 parameters += $"[DateExpectedReturn] = '{dateExpectedReturn.Value}'";
             }
 
-            query += $"WHERE [Id]={ bookingId }";
-            await _context.connection.ExecuteAsync(query + parameters);
+            query += parameters + $" WHERE [Id]={ bookingId }";
+            await _context.connection.ExecuteAsync(query);
         }
     }
 }

@@ -53,6 +53,18 @@ namespace VehicleFleetManagement.Api.Controllers
             return Ok(response.Data);
         }
 
+        [HttpGet("withdrawn/expired")]
+        [ProducesResponseType(typeof(CloseBookingResponse), StatusCodes.Status200OK)]
+        public async Task<IActionResult> GetWithdrawnExpired([FromQuery] DateTime? expiredDateWithdrawn)
+        {
+            if (!expiredDateWithdrawn.HasValue)
+                expiredDateWithdrawn = DateTime.Now;
+
+            var result = await _bookingQueries.GetAllExpiredAsync(expiredDateWithdrawn.Value.Date);
+
+            return Ok(result);
+        }
+
 
         [HttpPost]
         [ProducesResponseType(typeof(CreateBookingResponse), StatusCodes.Status200OK)]

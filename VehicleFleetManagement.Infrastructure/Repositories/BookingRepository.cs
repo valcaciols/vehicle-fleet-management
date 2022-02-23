@@ -69,12 +69,12 @@ namespace VehicleFleetManagement.Infrastructure.Repositories
 
             if (dateExpectedReturn.HasValue)
             {
-                query += string.IsNullOrEmpty(parameters) ? "" : " ,";
+                parameters += string.IsNullOrEmpty(parameters) ? "" : " ,";
                 parameters += $"[DateExpectedReturn] = '{dateExpectedReturn.Value}'";
             }
                 
-            query += $"WHERE [Id]={ bookingId }";
-            await UpdateQueryAsync(query + parameters);
+            query += parameters + $" WHERE [Id]={ bookingId }";
+            await UpdateQueryAsync(query);
         }
     }
 }

@@ -6,5 +6,6 @@ namespace VehicleFleetManagement.Application.Queries
     {
         Task<List<BookingViewModel>> GetAllAsync(int? clientId, string? cpf, string? name);
         Task<List<BookingViewModel>> GetAllWithdrawnAsync(DateTime? inicialDate, DateTime? endDate);
+        Task<List<BookingViewModel>> GetAllExpiredAsync(DateTime withdrawnDate);
     }
 }
