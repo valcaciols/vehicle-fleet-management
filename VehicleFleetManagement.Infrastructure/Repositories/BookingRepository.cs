@@ -14,13 +14,13 @@ namespace VehicleFleetManagement.Infrastructure.Repositories
                                ([ClientId]
                                ,[VehicleId]
                                ,[DateCreated]
-                               ,[DateWithdrawn]
+                               ,[DateExpectedWithdrawn]
                                ,[DateExpectedReturn])
                          VALUES
                                ({booking.ClientId}
                                ,{booking.VehicleId}
                                ,'{booking.DateCreated}'
-                               ,'{booking.DateWithdrawn}'
+                               ,'{booking.DateExpectedWithdrawn}'
                                ,'{booking.DateExpectedReturn}')";
 
             booking.Id = await AddQueryAsync(query);
@@ -52,6 +52,37 @@ namespace VehicleFleetManagement.Infrastructure.Repositories
                            SET [DateReturn] = '{dateReturn}'
                          WHERE [Id]={ bookingId }";
 
+            await UpdateQueryAsync(query);
+        }
+
+        public async Task UpdateDateWithdrawnAsync(int bookingId, DateTime dateWithdrawn)
+        {
+            var query = $@"UPDATE [dbo].[Booking]
+                           SET [DateWithdrawn] = '{dateWithdrawn}'
+                         WHERE [Id]={ bookingId }";
+
+            await UpdateQueryAsync(query);
+        }
+
+        public async Task UpdateExpectedDateAsync(int bookingId, DateTime? dateExpectedWithdrawn, DateTime? dateExpectedReturn)
+        {
+            if(dateExpectedWithdrawn == null && dateExpectedReturn == null)
+                return;
+
+            var query = $@"UPDATE [dbo].[Booking] SET ";
+
+            var parameters = string.Empty;
+
+            if (dateExpectedWithdrawn.HasValue)
+                parameters += $"[DateExpectedWithdrawn] = '{dateExpectedWithdrawn.Value}'";
+
+            if (dateExpectedReturn.HasValue)
+            {
+                parameters += string.IsNullOrEmpty(parameters) ? "" : " ,";
+                parameters += $"[DateExpectedReturn] = '{dateExpectedReturn.Value}'";
+            }
+                
+            query += parameters + $" WHERE [Id]={ bookingId }";
             await UpdateQueryAsync(query);
         }
     }

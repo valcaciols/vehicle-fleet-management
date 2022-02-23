@@ -7,7 +7,7 @@ namespace VehicleFleetManagement.Application.Commands.Booking
     {
         public int ClientId { get; set; }
         public int VehicleId { get; set; }
-        public DateTime DateWithdrawn { get; set; }
+        public DateTime DateExpectedWithdrawn { get; set; }
         public DateTime DateExpectedReturn { get; set; }
     }
 }

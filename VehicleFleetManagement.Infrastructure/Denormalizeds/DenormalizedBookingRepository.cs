@@ -18,23 +18,25 @@ namespace VehicleFleetManagement.Infrastructure.Denormalizeds
         {
             var query = $@"INSERT INTO [dbo].[DenormalizedBooking]
                        ([ClientId]
+                       ,[Cpf]
                        ,[ClientName]
                        ,[VehicleId]
                        ,[VehicleModel]
                        ,[LicensePlate]
                        ,[BookingId]
                        ,[DateCreated]
-                       ,[DateWithdrawn]
+                       ,[DateExpectedWithdrawn]
                        ,[DateExpectedReturn])
                      VALUES
                            ({entity.ClientId}
+                           ,'{entity.Cpf}'
                            ,'{entity.ClientName}'
                            ,{entity.VehicleId}
                            ,'{entity.VehicleModel}'
                            ,'{entity.LicensePlate}'
                            ,{entity.BookingId}
                            ,'{entity.DateCreated}'
-                           ,'{entity.DateWithdrawn}'
+                           ,'{entity.DateExpectedWithdrawn}'
                            ,'{entity.DateExpectedReturn}')";
 
             query += "SELECT CAST(SCOPE_IDENTITY() as int)";
@@ -70,6 +72,38 @@ namespace VehicleFleetManagement.Infrastructure.Denormalizeds
                            SET [DateReturn] = '{booking.DateReturn}'
                          WHERE [BookingId]={ booking.BookingId }";
 
+            await _context.connection.ExecuteAsync(query);
+        }
+
+
+        public async Task UpdateDateWithdrawnAsync(int bookingId, DateTime dateWithdrawn)
+        {
+            var query = $@"UPDATE [dbo].[DenormalizedBooking]
+                           SET [DateWithdrawn] = '{dateWithdrawn}'
+                         WHERE [BookingId]={ bookingId }";
+
+            await _context.connection.ExecuteAsync(query);
+        }
+
+        public async Task UpdateExpectedDateAsync(int bookingId, DateTime? dateExpectedWithdrawn, DateTime? dateExpectedReturn)
+        {
+            if (dateExpectedWithdrawn == null && dateExpectedReturn == null)
+                return;
+
+            var query = $@"UPDATE [dbo].[DenormalizedBooking] SET ";
+
+            var parameters = string.Empty;
+
+            if (dateExpectedWithdrawn.HasValue)
+                parameters += $"[DateExpectedWithdrawn] = '{dateExpectedWithdrawn.Value}'";
+
+            if (dateExpectedReturn.HasValue)
+            {
+                parameters += string.IsNullOrEmpty(parameters) ? "" : " ,";
+                parameters += $"[DateExpectedReturn] = '{dateExpectedReturn.Value}'";
+            }
+
+            query += parameters + $" WHERE [Id]={ bookingId }";
             await _context.connection.ExecuteAsync(query);
         }
     }

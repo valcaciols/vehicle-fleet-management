@@ -33,5 +33,13 @@ namespace VehicleFleetManagement.Infrastructure.Repositories
         {
             await _context.connection.ExecuteAsync(query);
         }
+
+        public static string AddParameters(string query, string queryParameter)
+        {
+            if (query.Contains("WHERE"))
+                return " AND " + queryParameter;
+
+            return " WHERE " + queryParameter;
+        }
     }
 }

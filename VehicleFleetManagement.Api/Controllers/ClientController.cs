@@ -1,14 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Http;
-using VehicleFleetManagement.Application.ViewModels.Client;
-using VehicleFleetManagement.Application.ViewModels.Requests;
-using VehicleFleetManagement.Domain.Aggregates.ClientAggregate;
+﻿using MediatR;
+using Microsoft.AspNetCore.Mvc;
 using VehicleFleetManagement.Application.Commands;
-using VehicleFleetManagement.Application.CommandHandlers.Clients;
+using VehicleFleetManagement.Application.Queries;
+using VehicleFleetManagement.Application.ViewModels.Client;
 using VehicleFleetManagement.Application.ViewModels.Responses;
-using MediatR;
-using VehicleFleetManagement.Domain.Denormalizeds.Repositories;
-using VehicleFleetManagement.Domain.Denormalizeds;
+using VehicleFleetManagement.Domain.Aggregates.ClientAggregate;
 
 namespace VehicleFleetManagement.Api.Controllers
 {
@@ -18,18 +14,20 @@ namespace VehicleFleetManagement.Api.Controllers
     {
         private readonly IMediator _mediator;
         private readonly IClientRepository _clientRepository;
+        private readonly IClientQueries _clientQueries;
 
-        public ClientController(IMediator mediator, IClientRepository clientRepository)
+        public ClientController(IMediator mediator, IClientRepository clientRepository, IClientQueries clientQueries)
         {
             _mediator = mediator;
             _clientRepository = clientRepository;
+            _clientQueries = clientQueries;
         }
 
-        [HttpGet("{clientId}")]
-        [ProducesResponseType(typeof(DenormalizedClient), StatusCodes.Status200OK)]
-        public async Task<IActionResult> Get(int clientId)
+        [HttpGet]
+        [ProducesResponseType(typeof(ClientViewModel), StatusCodes.Status200OK)]
+        public async Task<IActionResult> Get([FromQuery] string? cpf, [FromQuery] string? name)
         {
-            var client = await _clientRepository.GetAsync(clientId);
+            var client = await _clientQueries.GetAllAsync(cpf, name);
             return Ok(client);
         }
 

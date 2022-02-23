@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using VehicleFleetManagement.Application.Commands.Booking;
+using VehicleFleetManagement.Application.DomainEvents.Booking;
 using VehicleFleetManagement.Application.DomainEvents.Clients;
 using VehicleFleetManagement.Application.ViewModels.Responses;
 using VehicleFleetManagement.Domain.Aggregates.BookingAggregate;
@@ -8,7 +9,7 @@ using VehicleFleetManagement.Domain.Aggregates.VehicleAggregate;
 
 namespace VehicleFleetManagement.Application.CommandHandlers.Bookings
 {
-    public class CloseBookingCommandHandler : CommandHandler<CloseBookingResponse>, IRequestHandler<CloseBookingCommand, CommandResponse<CloseBookingResponse>>
+    public class UpdateBookingExpectedDateCommandHandler : CommandHandler<UpdateBookingExpectedDateResponse>, IRequestHandler<UpdateBookingExpectedDateCommand, CommandResponse<UpdateBookingExpectedDateResponse>>
     {
         private readonly IBookingRepository _bookingRepository;
         private readonly IClientRepository _clientRepository;
@@ -16,7 +17,7 @@ namespace VehicleFleetManagement.Application.CommandHandlers.Bookings
         private readonly IVehicleModelRepository _vehicleModelRepository;
         private readonly IMediator _mediator;
 
-        public CloseBookingCommandHandler(
+        public UpdateBookingExpectedDateCommandHandler(
                 IBookingRepository bookingRepository,
                 IClientRepository clientRepository,
                 IVehicleRepository vehicleRepository,
@@ -30,7 +31,7 @@ namespace VehicleFleetManagement.Application.CommandHandlers.Bookings
             _mediator = mediator;
         }
 
-        public async Task<CommandResponse<CloseBookingResponse>> Handle(CloseBookingCommand request, CancellationToken cancellationToken)
+        public async Task<CommandResponse<UpdateBookingExpectedDateResponse>> Handle(UpdateBookingExpectedDateCommand request, CancellationToken cancellationToken)
         {
             var booking = await _bookingRepository.GetAsync(request.BookingId);
 
@@ -40,24 +41,21 @@ namespace VehicleFleetManagement.Application.CommandHandlers.Bookings
             if (!booking.IsOpen())
                 return await Fail("Reserva já está fechada");
 
-            var dateReturn = DateTime.Now;
+            await _bookingRepository.UpdateExpectedDateAsync(booking.Id, request.DateExpectedWithdrawn, request.DateExpectedReturn);
 
-            await _bookingRepository.UpdateDateReturnAsync(booking.Id, dateReturn);
-
-            await _mediator.Publish(new CloseBookingDomainEvent
+            await _mediator.Publish(new UpdateBookingExpectedDateDomainEvent
             { 
                 BookingId = booking.Id,
-                DateReturn = dateReturn
+                DateExpectedWithdrawn = request.DateExpectedWithdrawn,
+                DateExpectedReturn = request.DateExpectedReturn
             });
 
-            await _mediator.Publish(new UpdateStatusVehicleDomainEvent
+            return await Ok(new UpdateBookingExpectedDateResponse 
             {
-                VehicleId = booking.VehicleId,
-                StatusId = (int) VehicleStatus.Available,
-                StatusName = VehicleStatus.Available.ToString(),
+                BookingId = booking.Id,
+                DateExpectedWithdrawn = request.DateExpectedWithdrawn,
+                DateExpectedReturn = request.DateExpectedReturn
             });
-
-            return await Ok(new CloseBookingResponse(booking.Id, dateReturn));
         }
     }
 }

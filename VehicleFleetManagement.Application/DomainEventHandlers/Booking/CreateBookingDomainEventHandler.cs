@@ -20,13 +20,14 @@ namespace VehicleFleetManagement.Application.DomainEventHandlers.Booking
             {
                 BookingId = notification.BookingId,
                 ClientId = notification.ClientId,
+                Cpf = notification.Cpf,
                 VehicleId = notification.VehicleId,
                 VehicleModel = notification.VehicleModel,
                 ClientName = notification.ClientName,
                 LicensePlate = notification.LicensePlate,
                 DateCreated = notification.DateCreated,
                 DateExpectedReturn = notification.DateExpectedReturn,
-                DateWithdrawn = notification.DateWithdrawn
+                DateExpectedWithdrawn = notification.DateExpectedWithdrawn
             };
 
             await _denormalizedBooking.AddAsync(booking);

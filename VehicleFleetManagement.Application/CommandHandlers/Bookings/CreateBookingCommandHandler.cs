@@ -58,7 +58,7 @@ namespace VehicleFleetManagement.Application.CommandHandlers.Bookings
             if (!IsDateValidBooking(request))
                 return await Fail("Data de reserva inválida");
 
-            var booking = new Booking(client.Id, vehicle.Id, request.DateWithdrawn, request.DateExpectedReturn);
+            var booking = new Booking(client.Id, vehicle.Id, request.DateExpectedWithdrawn, request.DateExpectedReturn);
 
             var bookingResult = await _bookingRepository.AddAsync(booking);
 
@@ -66,12 +66,13 @@ namespace VehicleFleetManagement.Application.CommandHandlers.Bookings
             { 
                 BookingId = booking.Id,
                 ClientId = client.Id,
+                Cpf = client.Cpf,
                 ClientName = client.Name,
                 VehicleId = vehicle.Id,
                 VehicleModel = vehicleModel.Name,
                 LicensePlate = vehicle.LicensePlate,
                 DateCreated = booking.DateCreated,
-                DateWithdrawn = booking.DateWithdrawn,
+                DateExpectedWithdrawn = booking.DateExpectedWithdrawn,
                 DateExpectedReturn = booking.DateExpectedReturn
             });
 
@@ -84,23 +85,18 @@ namespace VehicleFleetManagement.Application.CommandHandlers.Bookings
 
             return await Ok(new CreateBookingResponse(
                 client.Name,
-                GetVehicleName(vehicle),
+                vehicleModel.Name,
                 bookingResult.DateCreated,
-                booking.DateWithdrawn,
+                booking.DateExpectedWithdrawn,
                 bookingResult.DateExpectedReturn));
         }
 
         private bool IsDateValidBooking(CreateBookingCommand request)
         {
-            if (request.DateExpectedReturn.DayOfYear <= request.DateWithdrawn.DayOfYear)
+            if (request.DateExpectedReturn.DayOfYear <= request.DateExpectedWithdrawn.DayOfYear)
                 return false;
 
             return true;
-        }
-
-        private string GetVehicleName(Vehicle vehicle)
-        {
-            return vehicle.VehicleModel != null ? vehicle.VehicleModel.Name : "";
         }
     }
 }
