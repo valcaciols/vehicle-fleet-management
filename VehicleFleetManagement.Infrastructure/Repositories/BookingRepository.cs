@@ -55,6 +55,15 @@ namespace VehicleFleetManagement.Infrastructure.Repositories
             await UpdateQueryAsync(query);
         }
 
+        public async Task UpdateDateWithdrawnAsync(int bookingId, DateTime dateWithdrawn)
+        {
+            var query = $@"UPDATE [dbo].[Booking]
+                           SET [DateWithdrawn] = '{dateWithdrawn}'
+                         WHERE [Id]={ bookingId }";
+
+            await UpdateQueryAsync(query);
+        }
+
         public async Task UpdateExpectedDateAsync(int bookingId, DateTime? dateExpectedWithdrawn, DateTime? dateExpectedReturn)
         {
             if(dateExpectedWithdrawn == null && dateExpectedReturn == null)

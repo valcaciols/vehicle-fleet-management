@@ -75,6 +75,16 @@ namespace VehicleFleetManagement.Infrastructure.Denormalizeds
             await _context.connection.ExecuteAsync(query);
         }
 
+
+        public async Task UpdateDateWithdrawnAsync(int bookingId, DateTime dateWithdrawn)
+        {
+            var query = $@"UPDATE [dbo].[DenormalizedBooking]
+                           SET [DateWithdrawn] = '{dateWithdrawn}'
+                         WHERE [BookingId]={ bookingId }";
+
+            await _context.connection.ExecuteAsync(query);
+        }
+
         public async Task UpdateExpectedDateAsync(int bookingId, DateTime? dateExpectedWithdrawn, DateTime? dateExpectedReturn)
         {
             if (dateExpectedWithdrawn == null && dateExpectedReturn == null)
