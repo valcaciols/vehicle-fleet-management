@@ -41,6 +41,12 @@ namespace VehicleFleetManagement.Application.CommandHandlers.Bookings
             if (!booking.IsOpen())
                 return await Fail("Reserva já está fechada");
 
+            if (booking.DateWithdrawn != null && request.DateExpectedWithdrawn != null)
+                return await Fail("O Veiculo já foi retirado");
+
+            if (request.DateExpectedReturn != null && request.DateExpectedReturn <= booking.DateExpectedReturn)
+                return await Fail("A data não pode ser menor que a data de retorno anterior");
+
             await _bookingRepository.UpdateExpectedDateAsync(booking.Id, request.DateExpectedWithdrawn, request.DateExpectedReturn);
 
             await _mediator.Publish(new UpdateBookingExpectedDateDomainEvent
