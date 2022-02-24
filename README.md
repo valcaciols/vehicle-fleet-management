@@ -49,7 +49,7 @@ $ docker compose build
 $ docker compose up -d
 ```
 
-### 🎲 Acessando a aplicação script de inicialização do Banco de dados
+### 🎲 Executando script de inicialização do Banco de dados
 
 ```bash
 # Acesse o o seu gerenciador de banco de dados com as credenciais abaixo:
