@@ -84,6 +84,7 @@ namespace VehicleFleetManagement.Application.CommandHandlers.Bookings
             });
 
             return await Ok(new CreateBookingResponse(
+                booking.Id,
                 client.Name,
                 vehicleModel.Name,
                 bookingResult.DateCreated,
